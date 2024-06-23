@@ -1,0 +1,36 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Player {
+  id              Int      @id @default(autoincrement())
+  name            String
+  school          String
+  country         String
+  height          String
+  seasonExp       Int
+  fromYear        Int
+  toYear          Int
+  points          Float
+  assists         Float
+  rebounds        Float
+  steals          Float
+  blocks          Float
+  fg3Pct          Float
+  teamsPlayedFor  String[]
+  draftRound      String
+  draftNumber     String
+  mvp             Int
+  dpoy            Int
+  smoty           Int
+  allStar         Int
+  allNba          Int
+  allNbaDefense   Int
+  roy             Int
+  finalsMvp       Int
+}
