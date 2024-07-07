@@ -5,10 +5,26 @@ import './App.css';
 Modal.setAppElement('#root');
 
 const TicTacToeGrid = () => {
-  const [selectedSquare, setSelectedSquare] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [filteredPlayers, setFilteredPlayers] = useState([]);
+  const [grid, setGrid] = useState(Array(9).fill(''));
+  const [selectedSquare, setSelectedSquare] = useState(null);
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await fetch('http://localhost:5001/categories');
+      const data = await response.json();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -33,24 +49,38 @@ const TicTacToeGrid = () => {
     setIsOpen(true);
   };
 
+  const handlePlayerClick = (playerName) => {
+    const newGrid = [...grid];
+    newGrid[selectedSquare] = playerName;
+    setGrid(newGrid);
+    closePopup();
+  };
+
   const closePopup = () => {
     setIsOpen(false);
-    setSelectedSquare(null);
     setSearch('');
+    setSelectedSquare(null);
   };
 
   return (
     <div className="container">
       <div className="board">
-        {Array(9).fill(null).map((_, index) => (
+        {grid.map((value, index) => (
           <div
             key={index}
             className="square"
             onClick={() => handleClick(index)}
           >
-            {selectedSquare === index ? 'Selected' : ''}
+            {value}
           </div>
         ))}
+      </div>
+      <div className="categories">
+        <h3>Categories</h3>
+        {categories.map((category, index) => (
+          <p key={index}>{category}</p>
+        ))}
+        <button onClick={fetchCategories}>Refresh Categories</button>
       </div>
       <Modal
         isOpen={isOpen}
@@ -73,10 +103,7 @@ const TicTacToeGrid = () => {
             {filteredPlayers.map((player, index) => (
               <li
                 key={index}
-                onClick={() => {
-                  console.log(player.player_name);
-                  closePopup();
-                }}
+                onClick={() => handlePlayerClick(player.player_name)}
                 className="player-item"
               >
                 {player.player_name}

@@ -2,9 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .App-logo {
@@ -18,19 +20,14 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-content {
+  background-color: #faefd7; /* Change this to your desired background color */
+  padding: 20px;
+  flex: 1; /* This ensures the main content area takes up remaining space */
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+  align-items: center;
+  flex-direction: column; /* Ensure children are in a column layout */
 }
 
 @keyframes App-logo-spin {
@@ -41,25 +38,33 @@
     transform: rotate(360deg);
   }
 }
+
 .board {
   display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
   gap: 10px;
   justify-content: center;
-  margin: 20px auto;
+  width: 80vw;  /* Adjust the width as needed */
+  height: 80vw; /* Keep it square by using the same value for height */
+  max-width: 600px;  /* Set a max size */
+  max-height: 600px; /* Set a max size */
+  margin-top: -20px; /* Adjust this value to shift the grid up or down */
 }
 
 .square {
-  width: 100px;
-  height: 100px;
-  background-color: #fff;
-  border: 2px solid #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
   cursor: pointer;
+  font-size: 18px;
+  transition: background-color 0.3s ease;
+}
+
+.square:hover {
+  background-color: #d0d0d0;  /* Highlight color on hover */
 }
 
 .popup {
@@ -92,50 +97,29 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-}
-
-.board {
-  display: grid;
-  grid-template-columns: repeat(3, 100px);
-  grid-template-rows: repeat(3, 100px);
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.square {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100px;
-  height: 100px;
-  background-color: #f0f0f0;
-  border: 1px solid #ccc;
-  cursor: pointer;
-  font-size: 18px;
+  height: 100%;
 }
 
 .modal {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
-  right: auto;
-  bottom: auto;
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
   border-radius: 8px;
   outline: none;
+  z-index: 1000;
 }
 
 .overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
-}
-
-.popup-content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  z-index: 999;
 }
 
 .search-input {
@@ -170,4 +154,47 @@
   cursor: pointer;
   font-size: 24px;
   margin-bottom: 10px;
+}
+
+.footer {
+  background-color: #292929; /* Dark gray almost black */
+  color: rgb(255, 255, 255);
+  text-align: center;
+  padding: 20px 0;
+  position: fixed; /* Fix the footer to the bottom of the viewport */
+  bottom: 0;
+  left: 0;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.connectBtn {
+  width: 120px;
+  height: 40px;
+  border: none;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  color: white;
+  font-weight: 600;
+  background: linear-gradient(to right, #8be3fc, #576bff);
+  box-shadow: 0 20px 30px -7px rgba(97, 118, 238, 0.5);
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+
+.connectBtn:hover {
+  box-shadow: none;
+  transform: translate(0px, 2.2px);
+}
+
+.connectBtn:active {
+  transform: scale(0.96) translate(0px, 3.2px);
 }

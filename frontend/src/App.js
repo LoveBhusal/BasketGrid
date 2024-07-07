@@ -1,19 +1,17 @@
 import React from 'react';
 import Title from './Title';
 import TicTacToeGrid from './TicTacToeGrid';
-import TicTacToeBoard from './TicTacToeBoard'
+import Footer from './Footer';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <Title />
-      </header>
-      <main>
+      <Title />
+      <main className="main-content">
         <TicTacToeGrid />
-        <TicTacToeBoard />
       </main>
+      <Footer />
     </div>
   );
 }

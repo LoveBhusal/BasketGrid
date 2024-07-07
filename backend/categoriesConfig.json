@@ -1,0 +1,39 @@
+{
+    "Teams": {
+      "weight": 0.37,
+      "values": ["Boston Celtics", "Milwaukee Bucks", "Philadelphia 76ers", "Portland Trail Blazers", "Sacramento Kings"]
+    },
+    "Colleges": {
+      "weight": 0.05,
+      "values": ["Duke", "Kentucky", "North Carolina", "UCLA", "Kansas"]
+    },
+    "Accolades": {
+      "weight": 0.15,
+      "values": ["MVP", "DPOY", "6MOTY", "ROY", "All Star"]
+    },
+    "Draft": {
+      "weight": 0.05,
+      "values": ["1st Round", "2nd Round"]
+    },
+    "Not USA": {
+      "weight": 0.02,
+      "values": ["Canada", "Spain", "Australia", "France", "Germany"]
+    },
+    "Statistics": {
+      "weight": 0.22,
+      "subCategories": ["PTS > 20", "PTS > 25", "PTS < 5", "REB > 10", "AST > 8"]
+    },
+    "ERA": {
+      "weight": 0.11,
+      "values": ["1990s", "2000s", "2010s", "2020s"]
+    },
+    "Height": {
+      "weight": 0.01,
+      "values": ["< 6-0", "6-0 to 6-5", "> 6-5"]
+    },
+    "One Franchise": {
+      "weight": 0.02,
+      "values": ["Yes", "No"]
+    }
+  }
+  

@@ -1,11 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+//const { PrismaClient } = require('@prisma/client');
+const { generateCategories } = require('./generateCategories');
 const { Pool } = require('pg');
 
 const app = express();
+//const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5001;
 
-// PostgreSQL connection
 const pool = new Pool({
   user: 'jamal',
   host: 'localhost',
@@ -17,7 +19,6 @@ const pool = new Pool({
 app.use(cors());
 app.use(express.json());
 
-// Endpoint to search players by name
 app.get('/players', async (req, res) => {
   const searchQuery = req.query.search;
   try {
@@ -32,6 +33,12 @@ app.get('/players', async (req, res) => {
   }
 });
 
+app.get('/categories', (req, res) => {
+  const categories = generateCategories();
+  res.json(categories);
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+

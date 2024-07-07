@@ -1,8 +1,16 @@
 import React from 'react';
+import './Title.css';
 
 const Title = () => {
   return (
-    <h1 className="text-4xl font-bold text-center mt-10">BasketGrid</h1>
+    <header className="App-header">
+      <h1 className="text-4xl font-bold">BasketGrid</h1>
+      <button>
+        <span className="shadow"></span>
+        <span className="edge"></span>
+        <span className="front text"> About </span>
+      </button>
+    </header>
   );
 };
 
