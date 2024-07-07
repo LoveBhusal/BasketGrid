@@ -1,11 +1,11 @@
 {
     "Teams": {
       "weight": 0.37,
-      "values": ["Boston Celtics", "Milwaukee Bucks", "Philadelphia 76ers", "Portland Trail Blazers", "Sacramento Kings"]
+      "values": ["Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", "Minnesota Timberwolves", "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", "Toronto Raptors", "Utah Jazz", "Washington Wizards"]
     },
     "Colleges": {
       "weight": 0.05,
-      "values": ["Duke", "Kentucky", "North Carolina", "UCLA", "Kansas"]
+      "values": ["Kentucky", "Duke", "UCLA", "Kansas", "Michigan", "North Carolina", "Gonzaga", "Villanova", "Alabama", "USC", "Texas", "Indiana", "Louisville", "Notre Dame", "Arizona", "Michigan State", "Ohio State", "Connecticut" ]
     },
     "Accolades": {
       "weight": 0.15,

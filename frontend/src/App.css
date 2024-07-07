@@ -39,17 +39,62 @@
   }
 }
 
+.board-container {
+  display: grid;
+  grid-template-areas:
+    "category-top category-top category-top category-top"
+    "category-side square square square"
+    "category-side square square square"
+    "category-side square square square";
+  gap: 10px;
+  justify-content: center;
+  width: 80vw; /* Adjust the width as needed */
+  max-width: 600px; /* Set a max size */
+  margin-top: -20px; /* Adjust this value to shift the grid up or down */
+}
+
+.categories-top {
+  display: flex;
+  grid-area: category-top;
+  justify-content: space-around;
+  padding: 0 10px;
+  width: 100%; /* Ensure it takes the full width of the board container */
+  max-width: 600px; /* Match the max width of the board */
+  margin: 0 auto; /* Center the categories-top container */
+
+}
+
+.categories-side {
+  display: flex;
+  flex-direction: column;
+  grid-area: category-side;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.category-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  padding: 5px;
+  height: 100%; /* Ensures the category item takes up the full height of the grid area */
+  background: none; /* Remove background */
+  border: none; /* Remove border */
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
   gap: 10px;
   justify-content: center;
+  grid-area: square;
   width: 80vw;  /* Adjust the width as needed */
   height: 80vw; /* Keep it square by using the same value for height */
   max-width: 600px;  /* Set a max size */
   max-height: 600px; /* Set a max size */
-  margin-top: -20px; /* Adjust this value to shift the grid up or down */
 }
 
 .square {

@@ -64,23 +64,32 @@ const TicTacToeGrid = () => {
 
   return (
     <div className="container">
-      <div className="board">
-        {grid.map((value, index) => (
-          <div
-            key={index}
-            className="square"
-            onClick={() => handleClick(index)}
-          >
-            {value}
-          </div>
-        ))}
-      </div>
-      <div className="categories">
-        <h3>Categories</h3>
-        {categories.map((category, index) => (
-          <p key={index}>{category}</p>
-        ))}
-        <button onClick={fetchCategories}>Refresh Categories</button>
+      <div className="board-container">
+        {categories.length >= 6 && (
+          <>
+            <div className="categories-top">
+              <div className="category-item">{categories[0]}</div>
+              <div className="category-item">{categories[1]}</div>
+              <div className="category-item">{categories[2]}</div>
+            </div>
+            <div className="categories-side">
+              <div className="category-item">{categories[3]}</div>
+              <div className="category-item">{categories[4]}</div>
+              <div className="category-item">{categories[5]}</div>
+            </div>
+          </>
+        )}
+        <div className="board">
+          {grid.map((value, index) => (
+            <div
+              key={index}
+              className="square"
+              onClick={() => handleClick(index)}
+            >
+              {value}
+            </div>
+          ))}
+        </div>
       </div>
       <Modal
         isOpen={isOpen}
