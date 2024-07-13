@@ -54,14 +54,14 @@
 }
 
 .categories-top {
-  display: flex;
+  display: grid;
   grid-area: category-top;
-  justify-content: space-around;
-  padding: 0 10px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
   width: 100%; /* Ensure it takes the full width of the board container */
   max-width: 600px; /* Match the max width of the board */
   margin: 0 auto; /* Center the categories-top container */
-
+  transform: translateX(44px);
 }
 
 .categories-side {
@@ -82,6 +82,8 @@
   height: 100%; /* Ensures the category item takes up the full height of the grid area */
   background: none; /* Remove background */
   border: none; /* Remove border */
+  /* flex: 1; */
+  /* white-space: nowrap */
 }
 
 .board {
