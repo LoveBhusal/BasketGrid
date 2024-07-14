@@ -1,11 +1,12 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-//const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('@prisma/client');
 const { generateCategories } = require('./generateCategories');
 const { Pool } = require('pg');
 
 const app = express();
-//const prisma = new PrismaClient();
+const prisma = new PrismaClient();
 const PORT = process.env.PORT || 5001;
 
 const pool = new Pool({
@@ -22,20 +23,45 @@ app.use(express.json());
 app.get('/players', async (req, res) => {
   const searchQuery = req.query.search;
   try {
-    const result = await pool.query(
-      'SELECT player_name FROM players WHERE player_name ILIKE $1 LIMIT 10',
-      [`%${searchQuery}%`]
-    );
-    res.json(result.rows);
+    const result = await prisma.player.findMany({
+      where: {
+        player_name: {
+          contains: searchQuery,
+          mode: 'insensitive',
+        },
+      },
+      select: {
+        player_name: true,
+      },
+      take: 10,
+    });
+    res.json(result);
   } catch (error) {
     console.error('Error fetching players:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
 
-app.get('/categories', (req, res) => {
-  const categories = generateCategories();
-  res.json(categories);
+app.get('/test', async (req, res) => {
+  try {
+    const players = await prisma.player.findMany({
+      take: 5,
+    });
+    res.json(players);
+  } catch (error) {
+    console.error('Error testing Prisma client:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.get('/categories', async (req, res) => {
+  try {
+    const categories = await generateCategories();
+    res.json(categories);
+  } catch (error) {
+    console.error('Error generating categories:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 app.listen(PORT, () => {

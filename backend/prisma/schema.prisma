@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://jamal:twopercent@localhost:5432/PlayerDatabase?schema=public"
 }
 
 generator client {
@@ -8,29 +8,31 @@ generator client {
 }
 
 model Player {
-  id              Int      @id @default(autoincrement())
-  name            String
-  school          String
-  country         String
-  height          String
-  seasonExp       Int
-  fromYear        Int
-  toYear          Int
-  points          Float
-  assists         Float
-  rebounds        Float
-  steals          Float
-  blocks          Float
-  fg3Pct          Float
-  teamsPlayedFor  String[]
-  draftRound      String
-  draftNumber     String
-  mvp             Int
-  dpoy            Int
-  smoty           Int
-  allStar         Int
-  allNba          Int
-  allNbaDefense   Int
-  roy             Int
-  finalsMvp       Int
+  person_id        Int      @id @default(autoincrement()) @map("person_id")
+  player_name      String?  @map("player_name")
+  school           String?  @map("school")
+  country          String?  @map("country")
+  height           String?  @map("height")
+  season_exp       Int?     @map("season_exp")
+  from_year        Int?     @map("from_year")
+  to_year          Int?     @map("to_year")
+  pts              Float?   @map("pts")
+  ast              Float?   @map("ast")
+  reb              Float?   @map("reb")
+  stl              Float?   @map("stl")
+  blk              Float?   @map("blk")
+  fg3_pct          Float?   @map("fg3_pct")
+  teams_played_for String[] @map("teams_played_for")
+  draft_round      String?  @map("draft_round")
+  draft_number     String?  @map("draft_number")
+  mvp              Int?     @map("mvp")
+  dpoy             Int?     @map("dpoy")
+  smoty            Int?     @map("smoty")
+  all_star         Int?     @map("all_star")
+  all_nba          Int?     @map("all_nba")
+  all_nba_defense  Int?     @map("all_nba_defense")
+  roy              Int?     @map("roy")
+  finals_mvp       Int?     @map("finals_mvp")
+
+  @@map("players")
 }
