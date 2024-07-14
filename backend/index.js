@@ -1,4 +1,4 @@
-require('dotenv').config();
+//require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
@@ -33,7 +33,7 @@ app.get('/players', async (req, res) => {
       select: {
         player_name: true,
       },
-      take: 10,
+      take: 25,
     });
     res.json(result);
   } catch (error) {
@@ -60,6 +60,30 @@ app.get('/categories', async (req, res) => {
     res.json(categories);
   } catch (error) {
     console.error('Error generating categories:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+app.post('/validate-player', async (req, res) => {
+  const { playerName, category1, category2 } = req.body;
+  try {
+    const validPlayer = await prisma.player.findFirst({
+      where: {
+        player_name: playerName,
+        AND: [
+          { teams_played_for: { has: category1 } },
+          { teams_played_for: { has: category2 } }
+        ]
+      }
+    });
+
+    if (validPlayer) {
+      res.json({ valid: true });
+    } else {
+      res.json({ valid: false });
+    }
+  } catch (error) {
+    console.error('Error validating player:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });

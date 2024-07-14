@@ -1,7 +1,5 @@
-// generateCategories.js
-
 const categoriesConfig = require('./categoriesConfig.json');
-const categoryMapping = require('./categoryMapping.js');
+const categoryMapping = require('./categoryMapping');
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
@@ -41,6 +39,8 @@ async function validateCategories(categories) {
       };
     } else if (typeof colField === 'object') {
       colCondition = { [colField[colValue]]: true };
+    } else if (colField === 'teams_played_for') {
+      colCondition = { [colField]: { has: colValue } };
     } else {
       colCondition = { [colField]: colValue };
     }
@@ -55,6 +55,8 @@ async function validateCategories(categories) {
       };
     } else if (typeof rowField === 'object') {
       rowCondition = { [rowField[rowValue]]: true };
+    } else if (rowField === 'teams_played_for') {
+      rowCondition = { [rowField]: { has: rowValue } };
     } else {
       rowCondition = { [rowField]: rowValue };
     }

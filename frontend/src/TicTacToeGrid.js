@@ -1,3 +1,5 @@
+// TicTacToeGrid.js
+
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './App.css';
@@ -49,11 +51,34 @@ const TicTacToeGrid = () => {
     setIsOpen(true);
   };
 
-  const handlePlayerClick = (playerName) => {
-    const newGrid = [...grid];
-    newGrid[selectedSquare] = playerName;
-    setGrid(newGrid);
-    closePopup();
+  const handlePlayerClick = async (playerName) => {
+    const rowIndex = Math.floor(selectedSquare / 3);
+    const colIndex = selectedSquare % 3;
+
+    const category1 = categories[colIndex]; // Top category
+    const category2 = categories[rowIndex + 3]; // Side category
+
+    try {
+      const response = await fetch('http://localhost:5001/validate-player', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ playerName, category1, category2 }),
+      });
+      const result = await response.json();
+
+      if (result.valid) {
+        const newGrid = [...grid];
+        newGrid[selectedSquare] = playerName;
+        setGrid(newGrid);
+        closePopup();
+      } else {
+        alert('Invalid player for the selected categories');
+      }
+    } catch (error) {
+      console.error('Error validating player:', error);
+    }
   };
 
   const closePopup = () => {
