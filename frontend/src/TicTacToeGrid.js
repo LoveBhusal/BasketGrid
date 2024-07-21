@@ -1,10 +1,41 @@
-// TicTacToeGrid.js
-
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import './App.css';
 
 Modal.setAppElement('#root');
+
+const teamLogoMap = {
+  "Atlanta Hawks": "hawks.svg",
+  "Boston Celtics": "celtics.svg",
+  "Brooklyn Nets": "nets.svg",
+  "Charlotte Hornets": "hornets.svg",
+  "Chicago Bulls": "bulls.svg",
+  "Cleveland Cavaliers": "cavaliers.svg",
+  "Dallas Mavericks": "mavericks.svg",
+  "Denver Nuggets": "nuggets.svg",
+  "Detroit Pistons": "pistons.svg",
+  "Golden State Warriors": "warriors.svg",
+  "Houston Rockets": "rockets.svg",
+  "Indiana Pacers": "pacers.svg",
+  "Los Angeles Clippers": "clippers.svg",
+  "Los Angeles Lakers": "lakers.svg",
+  "Memphis Grizzlies": "grizzlies.svg",
+  "Miami Heat": "heat.svg",
+  "Milwaukee Bucks": "bucks.svg",
+  "Minnesota Timberwolves": "timberwolves.svg",
+  "New Orleans Pelicans": "pelicans.svg",
+  "New York Knicks": "knicks.svg",
+  "Oklahoma City Thunder": "thunder.svg",
+  "Orlando Magic": "magic.svg",
+  "Philadelphia 76ers": "76ers.svg",
+  "Phoenix Suns": "suns.svg",
+  "Portland Trail Blazers": "trailblazers.svg",
+  "Sacramento Kings": "kings.svg",
+  "San Antonio Spurs": "spurs.svg",
+  "Toronto Raptors": "raptors.svg",
+  "Utah Jazz": "jazz.svg",
+  "Washington Wizards": "wizards.svg",
+};
 
 const TicTacToeGrid = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -87,20 +118,30 @@ const TicTacToeGrid = () => {
     setSelectedSquare(null);
   };
 
+  const renderCategory = (category) => {
+    const logoFileName = teamLogoMap[category];
+    if (logoFileName) {
+      const logoPath = `/logos/${logoFileName}`;
+      console.log("Logo path: ", logoPath);
+      return <img src={logoPath} alt={category} className="team-logo" />;
+    }
+    return category;
+  };
+
   return (
     <div className="container">
       <div className="board-container">
         {categories.length >= 6 && (
           <>
             <div className="categories-top">
-              <div className="category-item">{categories[0]}</div>
-              <div className="category-item">{categories[1]}</div>
-              <div className="category-item">{categories[2]}</div>
+              <div className="category-item">{renderCategory(categories[0])}</div>
+              <div className="category-item">{renderCategory(categories[1])}</div>
+              <div className="category-item">{renderCategory(categories[2])}</div>
             </div>
             <div className="categories-side">
-              <div className="category-item">{categories[3]}</div>
-              <div className="category-item">{categories[4]}</div>
-              <div className="category-item">{categories[5]}</div>
+              <div className="category-item">{renderCategory(categories[3])}</div>
+              <div className="category-item">{renderCategory(categories[4])}</div>
+              <div className="category-item">{renderCategory(categories[5])}</div>
             </div>
           </>
         )}

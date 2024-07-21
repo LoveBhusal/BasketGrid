@@ -1,6 +1,6 @@
 {
     "Teams": {
-      "weight": 100000,
+      "weight": 0.37,
       "values": ["Atlanta Hawks", "Boston Celtics", "Brooklyn Nets", "Charlotte Hornets", "Chicago Bulls", "Cleveland Cavaliers", "Dallas Mavericks", "Denver Nuggets", "Detroit Pistons", "Golden State Warriors", "Houston Rockets", "Indiana Pacers", "Los Angeles Clippers", "Los Angeles Lakers", "Memphis Grizzlies", "Miami Heat", "Milwaukee Bucks", "Minnesota Timberwolves", "New Orleans Pelicans", "New York Knicks", "Oklahoma City Thunder", "Orlando Magic", "Philadelphia 76ers", "Phoenix Suns", "Portland Trail Blazers", "Sacramento Kings", "San Antonio Spurs", "Toronto Raptors", "Utah Jazz", "Washington Wizards"]
     },
     "Colleges": {
@@ -20,7 +20,7 @@
       "values": ["Canada", "Spain", "Australia", "France", "Germany", "Serbia", "Nigeria"]
     },
     "Statistics": {
-      "weight": 0.24,
+      "weight": 10000,
       "values": ["PTS > 20", "PTS > 25", "PTS < 5", "REB > 10", "AST > 7", "3PT% > 40", "BLK > 2", "STL > 1.5"]
     },
     "ERA": {

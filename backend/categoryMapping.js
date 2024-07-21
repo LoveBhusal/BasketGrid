@@ -1,43 +1,46 @@
-// categoryMapping.js
-
 const categoryMapping = {
-    "Teams": "teams_played_for",
-    "Colleges": "school",
-    "Accolades": {
-      "MVP": "mvp",
-      "DPOY": "dpoy",
-      "6MOTY": "smoty",
-      "ROY": "roy",
-      "All Star": "all_star",
-      "FMVP": "finals_mvp",
-      "All NBA Defense": "all_nba_defense",
-      "All NBA": "all_nba",
-      "5+ All NBA": "all_nba", // Adjust as necessary
-      "7x+ All Star": "all_star", // Adjust as necessary
-      "3x+ All Star": "all_star", // Adjust as necessary
-      "3x+ All Defense": "all_nba_defense", // Adjust as necessary
-      "3+ All NBA": "all_nba" // Adjust as necessary
-    },
-    "Draft": "draft_round",
-    "Not USA": "country",
-    "Statistics": {
-      "PTS > 20": "pts",
-      "PTS > 25": "pts",
-      "PTS < 5": "pts",
-      "REB > 10": "reb",
-      "AST > 7": "ast",
-      "3PT% > 40": "fg3_pct",
-      "BLK > 2": "blk",
-      "STL > 1.5": "stl"
-    },
-    "ERA": {
-      "Played in 80s": ["from_year", "to_year"], // Adjust as necessary
-      "Played in 90s": ["from_year", "to_year"], // Adjust as necessary
-      "Played in 2000s": ["from_year", "to_year"] // Adjust as necessary
-    },
-    "Height": "height",
-    "One Franchise": "teams_played_for"
-  };
-  
-  module.exports = categoryMapping;
-  
+  "Teams": "teams_played_for",
+  "Colleges": "school",
+  "Accolades": {
+    "MVP": { field: "mvp", minValue: 1 },
+    "DPOY": { field: "dpoy", minValue: 1 },
+    "6MOTY": { field: "smoty", minValue: 1 },
+    "ROY": { field: "roy", minValue: 1 },
+    "All Star": { field: "all_star", minValue: 1 },
+    "FMVP": { field: "finals_mvp", minValue: 1 },
+    "All NBA Defense": { field: "all_nba_defense", minValue: 1 },
+    "All NBA": { field: "all_nba", minValue: 1 },
+    "5+ All NBA": { field: "all_nba", minValue: 5 },
+    "7x+ All Star": { field: "all_star", minValue: 7 },
+    "3x+ All Star": { field: "all_star", minValue: 3 },
+    "3x+ All Defense": { field: "all_nba_defense", minValue: 3 },
+    "3+ All NBA": { field: "all_nba", minValue: 3 }
+  },
+  "Draft": "draft_round",
+  "Not USA": "country",
+  "Statistics": {
+    "PTS > 20": { field: "pts", operator: "gt", value: 20 },
+    "PTS > 25": { field: "pts", operator: "gt", value: 25 },
+    "PTS < 5": { field: "pts", operator: "lt", value: 5 },
+    "REB > 10": { field: "reb", operator: "gt", value: 10 },
+    "AST > 7": { field: "ast", operator: "gt", value: 7 },
+    "3PT% > 40": { field: "fg3_pct", operator: "gt", value: 40 },
+    "BLK > 2": { field: "blk", operator: "gt", value: 2 },
+    "STL > 1.5": { field: "stl", operator: "gt", value: 1.5 }
+  },
+  "ERA": {
+    "Played in 80s": { from: 1980, to: 1989 },
+    "Played in 90s": { from: 1990, to: 1999 },
+    "Played in 2000s": { from: 2000, to: 2009 }
+  },
+  "Height": {
+    "Short Kings": { field: "height", operator: "lte", value: "6-0" },
+    "7FT+": { field: "height", operator: "gte", value: "7-0" }
+  },
+  "One Franchise": {
+    "Loyal": { field: "teams_played_for", operator: "eq", value: 1 },
+    "Journeyman(5+ teams)": { field: "teams_played_for", operator: "gte", value: 5 }
+  }
+};
+
+module.exports = categoryMapping;
