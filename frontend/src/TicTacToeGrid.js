@@ -37,6 +37,28 @@ const teamLogoMap = {
   "Washington Wizards": "wizards.svg",
 };
 
+const collegeLogoMap = {
+  "Alabama": "alabama.svg",
+  "Arizona": "arizona.svg",
+  "Connecticut": "connecticut.svg",
+  "Duke": "duke.svg",
+  "Gonzaga": "gonzaga.svg",
+  "Indiana": "indiana.svg",
+  "Kansas": "kansas.svg",
+  "Kentucky": "kentucky.svg",
+  "Louisville": "louisville.svg",
+  "Michigan": "michigan.svg",
+  "Michigan State": "michiganstate.svg",
+  "North Carolina": "northcarolina.svg",
+  "Notre Dame": "notredame.svg",
+  "Ohio State": "ohiostate.svg",
+  "Texas": "texas.svg",
+  "UCLA": "ucla.svg",
+  "USC": "usc.svg",
+  "Villanova": "villanova.svg",
+};
+
+
 const TicTacToeGrid = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
@@ -119,14 +141,15 @@ const TicTacToeGrid = () => {
   };
 
   const renderCategory = (category) => {
-    const logoFileName = teamLogoMap[category];
+    let logoFileName = teamLogoMap[category] || collegeLogoMap[category];
     if (logoFileName) {
-      const logoPath = `/logos/${logoFileName}`;
+      const logoPath = teamLogoMap[category] ? `/logos/${logoFileName}` : `/colleges/${logoFileName}`;
       console.log("Logo path: ", logoPath);
       return <img src={logoPath} alt={category} className="team-logo" />;
     }
     return category;
   };
+
 
   return (
     <div className="container">

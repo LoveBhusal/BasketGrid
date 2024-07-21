@@ -25,7 +25,7 @@ const categoryMapping = {
     "REB > 10": { field: "reb", operator: "gt", value: 10 },
     "AST > 7": { field: "ast", operator: "gt", value: 7 },
     "3PT% > 40": { field: "fg3_pct", operator: "gt", value: 40 },
-    "BLK > 2": { field: "blk", operator: "gt", value: 2 },
+    "BLK >= 2": { field: "blk", operator: "gte", value: 2 },
     "STL > 1.5": { field: "stl", operator: "gt", value: 1.5 }
   },
   "ERA": {
@@ -38,9 +38,9 @@ const categoryMapping = {
     "7FT+": { field: "height", operator: "gte", value: "7-0" }
   },
   "One Franchise": {
-    "Loyal": { field: "teams_played_for", operator: "eq", value: 1 },
-    "Journeyman(5+ teams)": { field: "teams_played_for", operator: "gte", value: 5 }
-  }
+    "Loyal": { field: "teams_played_for", operator: "_count", value: 1 },
+    "Journeyman(5+ teams)": { field: "teams_played_for", operator: "_count", value: 5 }
+}
 };
 
 module.exports = categoryMapping;

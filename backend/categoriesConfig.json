@@ -20,7 +20,7 @@
       "values": ["Canada", "Spain", "Australia", "France", "Germany", "Serbia", "Nigeria"]
     },
     "Statistics": {
-      "weight": 10000,
+      "weight": 0.24,
       "values": ["PTS > 20", "PTS > 25", "PTS < 5", "REB > 10", "AST > 7", "3PT% > 40", "BLK > 2", "STL > 1.5"]
     },
     "ERA": {
