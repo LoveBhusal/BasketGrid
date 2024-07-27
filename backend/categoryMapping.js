@@ -16,7 +16,7 @@ const categoryMapping = {
     "3x+ All Defense": { field: "all_nba_defense", minValue: 3 },
     "3+ All NBA": { field: "all_nba", minValue: 3 }
   },
-  "Draft": "draft_round",
+  "Draft": "draft_number",
   "Not USA": "country",
   "Statistics": {
     "PTS > 20": { field: "pts", operator: "gt", value: 20 },
@@ -37,10 +37,7 @@ const categoryMapping = {
     "Short Kings": { field: "height", operator: "lte", value: "6-0" },
     "7FT+": { field: "height", operator: "gte", value: "7-0" }
   },
-  "One Franchise": {
-    "Loyal": { field: "teams_played_for", operator: "_count", value: 1 },
-    "Journeyman(5+ teams)": { field: "teams_played_for", operator: "_count", value: 5 }
-}
+  "One Franchise": "teams_played_for"  
 };
 
 module.exports = categoryMapping;
