@@ -66,32 +66,12 @@ function constructDraftCondition(value, mapping) {
     }
 }
 
-function constructOneFranchiseCondition(value, mapping) {
-    const field = 'teams_played_for'; // Use the actual field name directly
-  
-    switch (value) {
-      case 'Loyal':
-        return {
-          AND: [
-            { [field]: { isEmpty: false } },
-            { NOT: { [field]: { has: null } } },
-            { NOT: { [field]: { has: '' } } },
-            { NOT: { [field]: { has: 'SECOND_TEAM_PLACEHOLDER' } } }
-          ]
-        };
-      case 'Journeyman(5+ teams)':
-        return {
-          AND: [
-            { [field]: { has: 'FIRST_TEAM_PLACEHOLDER' } },
-            { [field]: { has: 'SECOND_TEAM_PLACEHOLDER' } },
-            { [field]: { has: 'THIRD_TEAM_PLACEHOLDER' } },
-            { [field]: { has: 'FOURTH_TEAM_PLACEHOLDER' } },
-            { [field]: { has: 'FIFTH_TEAM_PLACEHOLDER' } }
-          ]
-        };
-      default:
+function constructOneFranchiseCondition(category, mapping) {
+    if (!mapping || !mapping.field) {
+        console.error(`Invalid mapping for Statistics category: ${category}`);
         return {};
     }
+    return { [mapping.field]: { [mapping.operator]: mapping.value } };
   }
 function constructStatisticsCondition(category, mapping) {
     if (!mapping || !mapping.field) {
@@ -101,14 +81,42 @@ function constructStatisticsCondition(category, mapping) {
     return { [mapping.field]: { [mapping.operator]: mapping.value } };
 }
 
+function eraToIndex(year) {
+    if (year >= 1960 && year < 1970) return 1;
+    if (year >= 1970 && year < 1980) return 2;
+    if (year >= 1980 && year < 1990) return 3;
+    if (year >= 1990 && year < 2000) return 4;
+    if (year >= 2000 && year < 2010) return 5;
+    if (year >= 2010 && year < 2020) return 6;
+    return null;
+}
+
 function constructERACondition(category, mapping) {
+    const eraIndex = eraToIndex(mapping.from); // Get the index of the era
+
     return {
         OR: [
+            // Direct match with from_year or to_year
             { from_year: { gte: mapping.from, lte: mapping.to } },
-            { to_year: { gte: mapping.from, lte: mapping.to } }
+            { to_year: { gte: mapping.from, lte: mapping.to } },
+            // Check if era index lies within the range of from_year and to_year
+            {
+                AND: [
+                    { from_year: { lte: mapping.to } }, // Check that the era starts after the from_year
+                    { to_year: { gte: mapping.from } }  // Check that the era ends before the to_year
+                ]
+            }
         ]
     };
 }
+
+// Example usage
+const eraMapping = {
+    "Played in 80s": { from: 1980, to: 1989 },
+    "Played in 90s": { from: 1990, to: 1999 },
+    "Played in 2000s": { from: 2000, to: 2009 }
+};
+
 
 function constructHeightCondition(category, mapping) {
     const [feet, inches] = mapping.value.split('-').map(Number);

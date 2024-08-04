@@ -33,6 +33,7 @@ model Player {
   all_nba_defense  Int?     @map("all_nba_defense")
   roy              Int?     @map("roy")
   finals_mvp       Int?     @map("finals_mvp")
+  team_count       Int?     @map("team_count")
 
   @@map("players")
 }

@@ -37,7 +37,10 @@ const categoryMapping = {
     "Short Kings": { field: "height", operator: "lte", value: "6-0" },
     "7FT+": { field: "height", operator: "gte", value: "7-0" }
   },
-  "One Franchise": "teams_played_for"  
+  "One Franchise": {
+    "Journeyman(5+ teams)": { field: "team_count", operator: "gte", value: 5 },
+    "Loyal": { field: "team_count", operator: "lte", value: 1 }
+  } 
 };
 
 module.exports = categoryMapping;
