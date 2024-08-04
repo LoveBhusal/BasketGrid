@@ -109,11 +109,9 @@ const TicTacToeGrid = () => {
 
   const generatePlayerImageURL = (playerName) => {
     const normalizeName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
-  
     const [firstName, lastName] = playerName.split(' ').map(normalizeName);
     const truncatedLastName = lastName.substring(0, 5);
     const truncatedFirstName = firstName.substring(0, 2);
-  
     return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
   };
 
@@ -121,8 +119,8 @@ const TicTacToeGrid = () => {
     const rowIndex = Math.floor(selectedSquare / 3);
     const colIndex = selectedSquare % 3;
 
-    const category1 = categories[colIndex]; // Top category
-    const category2 = categories[rowIndex + 3]; // Side category
+    const category1 = categories[colIndex];
+    const category2 = categories[rowIndex + 3];
 
     try {
       const response = await fetch('http://localhost:5001/validate-player', {
@@ -139,14 +137,14 @@ const TicTacToeGrid = () => {
         const newGrid = [...grid];
         newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
         setGrid(newGrid);
-        closePopup();
-        if (!checkWinner(newGrid)){
+        if (!checkWinnerOrTie(newGrid)) {
           switchPlayer();
         }
-      
+        closePopup();
       } else {
         alert('Invalid player for the selected categories');
         switchPlayer();
+        closePopup();
       }
     } catch (error) {
       console.error('Error validating player:', error);
@@ -159,7 +157,7 @@ const TicTacToeGrid = () => {
     setGameMessage(`${nextPlayer.charAt(0).toUpperCase() + nextPlayer.slice(1)} player's turn`);
   };
 
-  const checkWinner = (currentGrid) => {
+  const checkWinnerOrTie = (currentGrid) => {
     const winningCombos = [
       [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
       [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
@@ -178,10 +176,35 @@ const TicTacToeGrid = () => {
     }
 
     if (currentGrid.every(square => square !== null)) {
+      setWinner('draw');
       setGameMessage("It's a draw!");
       setCurrentPlayer('black');
       return true;
     }
+
+    if (checkNoWinningPossibility(currentGrid, winningCombos)) {
+      setWinner('draw');
+      setGameMessage("It's a draw!");
+      setCurrentPlayer('black');
+      return true;
+    }
+  };
+
+  const checkNoWinningPossibility = (currentGrid, winningCombos) => {
+    for (let combo of winningCombos) {
+      const [a, b, c] = combo;
+      const playersInCombo = [currentGrid[a], currentGrid[b], currentGrid[c]].filter(square => square);
+      const playerSet = new Set(playersInCombo.map(square => square.player));
+      if (playerSet.size > 1) {
+        // If there are different players in the combo, it's not possible for any one player to win with this combo
+        continue;
+      }
+      if (playersInCombo.length < 3) {
+        // If there are empty spots in the combo, it could still potentially be a winning combo
+        return false;
+      }
+    }
+    return true;
   };
 
   const closePopup = () => {
@@ -205,9 +228,9 @@ const TicTacToeGrid = () => {
 
   return (
     <div className="container">
-       <div className={`game-info ${currentPlayer}`}>
-      <h2>{gameMessage}</h2>
-    </div>
+      <div className={`game-info ${currentPlayer}`}>
+        <h2>{gameMessage}</h2>
+      </div>
       <div className="board-container">
         {categories.length >= 6 && (
           <>
@@ -223,12 +246,13 @@ const TicTacToeGrid = () => {
             </div>
           </>
         )}
-        <div className="board">
+        <div className={`board ${winner ? 'disabled' : ''}`}>
           {grid.map((value, index) => (
             <div
               key={index}
               className={`square ${value ? value.player : ''} ${!value && !winner ? 'hoverable' : ''}`}
               onClick={() => handleClick(index)}
+              style={{ borderColor: value?.player, borderWidth: '3px' }} // Thicker border
             >
               {value && (
                 <>
@@ -241,14 +265,14 @@ const TicTacToeGrid = () => {
         </div>
       </div>
       <button type="button" className="button" onClick={resetGame}>
-      <span className="button__text">Restart</span>
-      <span className="button__icon">
-        <svg className="svg" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
-          <path d="M35.3 12.7c-2.89-2.9-6.88-4.7-11.3-4.7-8.84 0-15.98 7.16-15.98 16s7.14 16 15.98 16c7.45 0 13.69-5.1 15.46-12h-4.16c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55l-6.45 6.45h14v-14l-4.7 4.7z"></path>
-          <path d="M0 0h48v48h-48z" fill="none"></path>
-        </svg>
-      </span>
-    </button>
+        <span className="button__text">Restart</span>
+        <span className="button__icon">
+          <svg className="svg" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+            <path d="M35.3 12.7c-2.89-2.9-6.88-4.7-11.3-4.7-8.84 0-15.98 7.16-15.98 16s7.14 16 15.98 16c7.45 0 13.69-5.1 15.46-12h-4.16c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55l-6.45 6.45h14v-14l-4.7 4.7z"></path>
+            <path d="M0 0h48v48h-48z" fill="none"></path>
+          </svg>
+        </span>
+      </button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
