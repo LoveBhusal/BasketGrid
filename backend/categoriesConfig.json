@@ -21,7 +21,7 @@
     },
     "Statistics": {
       "weight": 0.24,
-      "values": ["PTS > 20", "PTS > 25", "PTS < 5", "REB > 10", "AST > 7", "3PT% > 40", "BLK >= 2", "STL > 1.5"]
+      "values": ["PTS > 20", "PTS > 25", "PTS < 5", "REB > 10", "AST > 7", "3PT% > 40", "BLK >= 2", "STL >= 1.5"]
     },
     "ERA": {
       "weight": 0.06,

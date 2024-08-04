@@ -140,8 +140,10 @@ const TicTacToeGrid = () => {
         newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
         setGrid(newGrid);
         closePopup();
-        checkWinner(newGrid);
-        switchPlayer();
+        if (!checkWinner(newGrid)){
+          switchPlayer();
+        }
+      
       } else {
         alert('Invalid player for the selected categories');
         switchPlayer();
@@ -171,12 +173,14 @@ const TicTacToeGrid = () => {
           currentGrid[a].player === currentGrid[c].player) {
         setWinner(currentGrid[a].player);
         setGameMessage(`${currentGrid[a].player.charAt(0).toUpperCase() + currentGrid[a].player.slice(1)} player wins!`);
-        return;
+        return true;
       }
     }
 
     if (currentGrid.every(square => square !== null)) {
       setGameMessage("It's a draw!");
+      setCurrentPlayer('black');
+      return true;
     }
   };
 

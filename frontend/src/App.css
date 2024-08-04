@@ -354,6 +354,11 @@
   color: blue;
 }
 
+.game-info.black h2 {
+  border: 2px solid black;
+  color: black;
+}
+
 .button {
   --main-focus: #2d8cf0;
   --font-color: #dedede;

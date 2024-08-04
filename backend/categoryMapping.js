@@ -26,7 +26,7 @@ const categoryMapping = {
     "AST > 7": { field: "ast", operator: "gt", value: 7 },
     "3PT% > 40": { field: "fg3_pct", operator: "gt", value: 40 },
     "BLK >= 2": { field: "blk", operator: "gte", value: 2 },
-    "STL > 1.5": { field: "stl", operator: "gt", value: 1.5 }
+    "STL >= 1.5": { field: "stl", operator: "gte", value: 1.5 }
   },
   "ERA": {
     "Played in 80s": { from: 1980, to: 1989 },
