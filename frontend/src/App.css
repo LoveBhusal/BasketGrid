@@ -103,11 +103,43 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f0f0f0;
+  background-color: #ffffff; /* Full white background for the squares */
   border: 1px solid #ccc;
   cursor: pointer;
   font-size: 18px;
   transition: background-color 0.3s ease;
+  flex-direction: column; /* Ensure the image and text stack vertically */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  position: relative; /* Position for absolute image */
+}
+
+.square img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  z-index: 1; /* Place the image behind the text */
+}
+
+.square div {
+  position: relative;
+  z-index: 2; /* Place the text on top of the image */
+  background-color: rgba(0, 0, 0, 0.8); /* Black background with minimal opacity */
+  color: white; /* White text */
+  padding: 5px 0; /* Adjust padding to match the new width */
+  width: 100%; /* Make the background stretch across the square */
+  text-align: center; /* Center the text */
+  margin-top: auto; /* Shift the text down */
+  font-size: 16px; /* Make the font size smaller */
+  line-height: 1.2; /* Reduce space between lines */
+  font-weight: bold; /* Make the text bold */
 }
 
 .square:hover {
@@ -194,13 +226,6 @@
 
 .player-item:hover {
   background-color: #f0f0f0;
-}
-
-.close {
-  align-self: flex-end;
-  cursor: pointer;
-  font-size: 24px;
-  margin-bottom: 10px;
 }
 
 .footer {

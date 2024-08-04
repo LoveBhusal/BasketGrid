@@ -58,12 +58,11 @@ const collegeLogoMap = {
   "Villanova": "villanova.svg",
 };
 
-
 const TicTacToeGrid = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [filteredPlayers, setFilteredPlayers] = useState([]);
-  const [grid, setGrid] = useState(Array(9).fill(''));
+  const [grid, setGrid] = useState(Array(9).fill(null));
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [categories, setCategories] = useState([]);
 
@@ -104,6 +103,16 @@ const TicTacToeGrid = () => {
     setIsOpen(true);
   };
 
+  const generatePlayerImageURL = (playerName) => {
+    const normalizeName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
+    const [firstName, lastName] = playerName.split(' ').map(normalizeName);
+    const truncatedLastName = lastName.substring(0, 5);
+    const truncatedFirstName = firstName.substring(0, 2);
+  
+    return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
+  };
+
   const handlePlayerClick = async (playerName) => {
     const rowIndex = Math.floor(selectedSquare / 3);
     const colIndex = selectedSquare % 3;
@@ -122,8 +131,9 @@ const TicTacToeGrid = () => {
       const result = await response.json();
 
       if (result.valid) {
+        const playerImageURL = generatePlayerImageURL(playerName);
         const newGrid = [...grid];
-        newGrid[selectedSquare] = playerName;
+        newGrid[selectedSquare] = { name: playerName, image: playerImageURL };
         setGrid(newGrid);
         closePopup();
       } else {
@@ -150,7 +160,6 @@ const TicTacToeGrid = () => {
     return category;
   };
 
-
   return (
     <div className="container">
       <div className="board-container">
@@ -175,7 +184,12 @@ const TicTacToeGrid = () => {
               className="square"
               onClick={() => handleClick(index)}
             >
-              {value}
+              {value && (
+                <>
+                  <div>{value.name}</div>
+                  <img src={value.image} alt={value.name} className="player-headshot" />
+                </>
+              )}
             </div>
           ))}
         </div>
