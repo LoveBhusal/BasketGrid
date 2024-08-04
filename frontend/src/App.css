@@ -271,35 +271,149 @@
   transform: scale(0.96) translate(0px, 3.2px);
 }
 
-.square.red {
-  border: 3px solid red; /* Thicker border */
-}
+/* Add these new styles to your existing App.css */
 
-.square.blue {
-  border: 3px solid blue; /* Thicker border */
-}
-
-.square.disabled {
-  cursor: not-allowed;
-  opacity: 0.6;
-  pointer-events: none; /* Disable hover and click */
-}
-
-.board.disabled {
-  pointer-events: none; /* Disable all interactions */
-}
-
-.message {
-  margin-top: 20px;
-  font-size: 24px;
-  font-weight: bold;
+.game-info {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
 }
 
 .reset-button {
-  margin-top: 20px;
   padding: 10px 20px;
   font-size: 16px;
-  cursor: pointer
-
+  background: linear-gradient(to right, #8be3fc, #576bff);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 20px 30px -7px rgba(97, 118, 238, 0.5);
 }
 
+.reset-button:hover {
+  box-shadow: none;
+  transform: translate(0px, 2.2px);
+}
+
+.reset-button:active {
+  transform: scale(0.96) translate(0px, 3.2px);
+}
+
+.square {
+  border: 4px solid transparent;
+  transition: all 0.3s ease;
+}
+
+.square.red {
+  border-color: #ff4136;
+}
+
+.square.blue {
+  border-color: #0074d9;
+}
+
+.square.hoverable:hover {
+  background-color: #f0f0f0;
+}
+
+.square:not(.hoverable) {
+  cursor: default;
+}
+
+.player-headshot {
+  width: 80%;
+  height: 80%;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: 10px;
+}
+
+
+.game-info {
+  text-align: center;
+  transform: translateY(-40px);
+  margin-top: -60px;
+}
+
+.game-info h2 {
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+}
+
+.game-info.red h2 {
+  border: 2px solid red;
+  color: red;
+}
+
+.game-info.blue h2 {
+  border: 2px solid blue;
+  color: blue;
+}
+
+.button {
+  --main-focus: #2d8cf0;
+  --font-color: #dedede;
+  --bg-color-sub: #222;
+  --bg-color: #323232;
+  --main-color: #dedede;
+  position: relative;
+  width: 150px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  background-color: var(--bg-color);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 20px; /* Add this line to shift the button down */
+}
+
+.button, .button__icon, .button__text {
+  transition: all 0.3s;
+}
+
+.button .button__text {
+  transform: translateX(33px);
+  color: var(--font-color);
+  font-weight: 600;
+}
+
+.button .button__icon {
+  position: absolute;
+  transform: translateX(109px);
+  height: 100%;
+  width: 39px;
+  background-color: var(--bg-color-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .svg {
+  width: 20px;
+  fill: var(--main-color);
+}
+
+.button:hover {
+  background: var(--bg-color);
+}
+
+.button:hover .button__text {
+  color: transparent;
+}
+
+.button:hover .button__icon {
+  width: 148px;
+  transform: translateX(0);
+}
+
+.button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px var(--main-color);
+}

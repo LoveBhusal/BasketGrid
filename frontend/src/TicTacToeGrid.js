@@ -65,9 +65,9 @@ const TicTacToeGrid = () => {
   const [grid, setGrid] = useState(Array(9).fill(null));
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [currentPlayer, setCurrentPlayer] = useState('red'); // Track the current player
+  const [currentPlayer, setCurrentPlayer] = useState('red');
   const [winner, setWinner] = useState(null);
-  const [message, setMessage] = useState('Player red\'s turn'); // Track the message
+  const [gameMessage, setGameMessage] = useState("Red player's turn");
 
   useEffect(() => {
     fetchCategories();
@@ -109,17 +109,20 @@ const TicTacToeGrid = () => {
 
   const generatePlayerImageURL = (playerName) => {
     const normalizeName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
+  
     const [firstName, lastName] = playerName.split(' ').map(normalizeName);
     const truncatedLastName = lastName.substring(0, 5);
     const truncatedFirstName = firstName.substring(0, 2);
+  
     return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
   };
 
   const handlePlayerClick = async (playerName) => {
     const rowIndex = Math.floor(selectedSquare / 3);
     const colIndex = selectedSquare % 3;
-    const category1 = categories[colIndex];
-    const category2 = categories[rowIndex + 3];
+
+    const category1 = categories[colIndex]; // Top category
+    const category2 = categories[rowIndex + 3]; // Side category
 
     try {
       const response = await fetch('http://localhost:5001/validate-player', {
@@ -136,53 +139,45 @@ const TicTacToeGrid = () => {
         const newGrid = [...grid];
         newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
         setGrid(newGrid);
+        closePopup();
         checkWinner(newGrid);
-        if (!winner) {
-          const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
-          setCurrentPlayer(nextPlayer);
-          setMessage(`Player ${nextPlayer}'s turn`);
-        }
+        switchPlayer();
       } else {
         alert('Invalid player for the selected categories');
-        const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
-        setCurrentPlayer(nextPlayer);
-        setMessage(`Player ${nextPlayer}'s turn`);
+        switchPlayer();
       }
     } catch (error) {
       console.error('Error validating player:', error);
-    } finally {
-      closePopup();
     }
   };
 
-  const checkWinner = (newGrid) => {
-    const lines = [
-      [0, 1, 2],
-      [3, 4, 5],
-      [6, 7, 8],
-      [0, 3, 6],
-      [1, 4, 7],
-      [2, 5, 8],
-      [0, 4, 8],
-      [2, 4, 6],
+  const switchPlayer = () => {
+    const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+    setCurrentPlayer(nextPlayer);
+    setGameMessage(`${nextPlayer.charAt(0).toUpperCase() + nextPlayer.slice(1)} player's turn`);
+  };
+
+  const checkWinner = (currentGrid) => {
+    const winningCombos = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+      [0, 4, 8], [2, 4, 6] // Diagonals
     ];
 
-    for (const [a, b, c] of lines) {
-      if (newGrid[a] && newGrid[a].player === newGrid[b]?.player && newGrid[a].player === newGrid[c]?.player) {
-        setWinner(newGrid[a].player);
-        setMessage(`Player ${newGrid[a].player} wins!`);
+    for (let combo of winningCombos) {
+      const [a, b, c] = combo;
+      if (currentGrid[a] && currentGrid[b] && currentGrid[c] &&
+          currentGrid[a].player === currentGrid[b].player &&
+          currentGrid[a].player === currentGrid[c].player) {
+        setWinner(currentGrid[a].player);
+        setGameMessage(`${currentGrid[a].player.charAt(0).toUpperCase() + currentGrid[a].player.slice(1)} player wins!`);
         return;
       }
     }
 
-    if (newGrid.every((square) => square !== null)) {
-      setWinner('draw');
-      setMessage('It\'s a draw!');
+    if (currentGrid.every(square => square !== null)) {
+      setGameMessage("It's a draw!");
     }
-  };
-
-  const resetGame = () => {
-    window.location.reload(); // Reload the page to reset the game
   };
 
   const closePopup = () => {
@@ -200,8 +195,15 @@ const TicTacToeGrid = () => {
     return category;
   };
 
+  const resetGame = () => {
+    window.location.reload();
+  };
+
   return (
     <div className="container">
+       <div className={`game-info ${currentPlayer}`}>
+      <h2>{gameMessage}</h2>
+    </div>
       <div className="board-container">
         {categories.length >= 6 && (
           <>
@@ -217,13 +219,12 @@ const TicTacToeGrid = () => {
             </div>
           </>
         )}
-        <div className={`board ${winner ? 'disabled' : ''}`}>
+        <div className="board">
           {grid.map((value, index) => (
             <div
               key={index}
-              className={`square ${value?.player} ${value ? 'disabled' : ''}`}
+              className={`square ${value ? value.player : ''} ${!value && !winner ? 'hoverable' : ''}`}
               onClick={() => handleClick(index)}
-              style={{ borderColor: value?.player, borderWidth: '3px' }} // Thicker border
             >
               {value && (
                 <>
@@ -235,8 +236,15 @@ const TicTacToeGrid = () => {
           ))}
         </div>
       </div>
-      <div className="message">{message}</div>
-      <button className="reset-button" onClick={resetGame}>Reset Game</button>
+      <button type="button" className="button" onClick={resetGame}>
+      <span className="button__text">Restart</span>
+      <span className="button__icon">
+        <svg className="svg" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M35.3 12.7c-2.89-2.9-6.88-4.7-11.3-4.7-8.84 0-15.98 7.16-15.98 16s7.14 16 15.98 16c7.45 0 13.69-5.1 15.46-12h-4.16c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55l-6.45 6.45h14v-14l-4.7 4.7z"></path>
+          <path d="M0 0h48v48h-48z" fill="none"></path>
+        </svg>
+      </span>
+    </button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
