@@ -270,3 +270,36 @@
 .connectBtn:active {
   transform: scale(0.96) translate(0px, 3.2px);
 }
+
+.square.red {
+  border: 3px solid red; /* Thicker border */
+}
+
+.square.blue {
+  border: 3px solid blue; /* Thicker border */
+}
+
+.square.disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+  pointer-events: none; /* Disable hover and click */
+}
+
+.board.disabled {
+  pointer-events: none; /* Disable all interactions */
+}
+
+.message {
+  margin-top: 20px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.reset-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer
+
+}
+

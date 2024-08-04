@@ -65,6 +65,9 @@ const TicTacToeGrid = () => {
   const [grid, setGrid] = useState(Array(9).fill(null));
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [currentPlayer, setCurrentPlayer] = useState('red'); // Track the current player
+  const [winner, setWinner] = useState(null);
+  const [message, setMessage] = useState('Player red\'s turn'); // Track the message
 
   useEffect(() => {
     fetchCategories();
@@ -99,26 +102,24 @@ const TicTacToeGrid = () => {
   }, [search]);
 
   const handleClick = (index) => {
+    if (grid[index] || winner) return;
     setSelectedSquare(index);
     setIsOpen(true);
   };
 
   const generatePlayerImageURL = (playerName) => {
     const normalizeName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
-  
     const [firstName, lastName] = playerName.split(' ').map(normalizeName);
     const truncatedLastName = lastName.substring(0, 5);
     const truncatedFirstName = firstName.substring(0, 2);
-  
     return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
   };
 
   const handlePlayerClick = async (playerName) => {
     const rowIndex = Math.floor(selectedSquare / 3);
     const colIndex = selectedSquare % 3;
-
-    const category1 = categories[colIndex]; // Top category
-    const category2 = categories[rowIndex + 3]; // Side category
+    const category1 = categories[colIndex];
+    const category2 = categories[rowIndex + 3];
 
     try {
       const response = await fetch('http://localhost:5001/validate-player', {
@@ -133,15 +134,55 @@ const TicTacToeGrid = () => {
       if (result.valid) {
         const playerImageURL = generatePlayerImageURL(playerName);
         const newGrid = [...grid];
-        newGrid[selectedSquare] = { name: playerName, image: playerImageURL };
+        newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
         setGrid(newGrid);
-        closePopup();
+        checkWinner(newGrid);
+        if (!winner) {
+          const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+          setCurrentPlayer(nextPlayer);
+          setMessage(`Player ${nextPlayer}'s turn`);
+        }
       } else {
         alert('Invalid player for the selected categories');
+        const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+        setCurrentPlayer(nextPlayer);
+        setMessage(`Player ${nextPlayer}'s turn`);
       }
     } catch (error) {
       console.error('Error validating player:', error);
+    } finally {
+      closePopup();
     }
+  };
+
+  const checkWinner = (newGrid) => {
+    const lines = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
+
+    for (const [a, b, c] of lines) {
+      if (newGrid[a] && newGrid[a].player === newGrid[b]?.player && newGrid[a].player === newGrid[c]?.player) {
+        setWinner(newGrid[a].player);
+        setMessage(`Player ${newGrid[a].player} wins!`);
+        return;
+      }
+    }
+
+    if (newGrid.every((square) => square !== null)) {
+      setWinner('draw');
+      setMessage('It\'s a draw!');
+    }
+  };
+
+  const resetGame = () => {
+    window.location.reload(); // Reload the page to reset the game
   };
 
   const closePopup = () => {
@@ -154,7 +195,6 @@ const TicTacToeGrid = () => {
     let logoFileName = teamLogoMap[category] || collegeLogoMap[category];
     if (logoFileName) {
       const logoPath = teamLogoMap[category] ? `/logos/${logoFileName}` : `/colleges/${logoFileName}`;
-      console.log("Logo path: ", logoPath);
       return <img src={logoPath} alt={category} className="team-logo" />;
     }
     return category;
@@ -177,12 +217,13 @@ const TicTacToeGrid = () => {
             </div>
           </>
         )}
-        <div className="board">
+        <div className={`board ${winner ? 'disabled' : ''}`}>
           {grid.map((value, index) => (
             <div
               key={index}
-              className="square"
+              className={`square ${value?.player} ${value ? 'disabled' : ''}`}
               onClick={() => handleClick(index)}
+              style={{ borderColor: value?.player, borderWidth: '3px' }} // Thicker border
             >
               {value && (
                 <>
@@ -194,6 +235,8 @@ const TicTacToeGrid = () => {
           ))}
         </div>
       </div>
+      <div className="message">{message}</div>
+      <button className="reset-button" onClick={resetGame}>Reset Game</button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
