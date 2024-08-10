@@ -21,7 +21,7 @@
 }
 
 .main-content {
-  background-color: #faefd7; /* Change this to your desired background color */
+  background-color: #fde9bd; /* Change this to your desired background color */
   padding: 20px;
   flex: 1; /* This ensures the main content area takes up remaining space */
   display: flex;
@@ -421,4 +421,9 @@
 .button:active {
   transform: translate(3px, 3px);
   box-shadow: 0px 0px var(--main-color);
+}
+
+.about-btn .front.text {
+  font-weight: bold;  /* Make the text bold */
+  color: white;       /* Set the text color to white */
 }

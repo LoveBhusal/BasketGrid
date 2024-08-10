@@ -1,13 +1,27 @@
-//require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { PrismaClient } = require('@prisma/client');
 const { generateCategories } = require('./generateCategories');
 const { Pool } = require('pg');
 const { constructCondition } = require('./queryUtils');
+const http = require('http');
+const { Server } = require('socket.io');
 
+// Initialize Express and Prisma
 const app = express();
 const prisma = new PrismaClient();
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Initialize Socket.IO with the HTTP server
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000", // Update this to your frontend origin
+    methods: ["GET", "POST"]
+  }
+});
+
 const PORT = process.env.PORT || 5001;
 
 const pool = new Pool({
@@ -64,7 +78,6 @@ app.get('/categories', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-// Read the Categories config file
 
 app.post('/validate-player', async (req, res) => {
     const { playerName, category1, category2 } = req.body;
@@ -87,6 +100,43 @@ app.post('/validate-player', async (req, res) => {
     }
 });
 
-app.listen(PORT, () => {
+// Socket.IO connection
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  socket.on('findMatch', () => {
+    findMatch(socket);
+  });
+
+  socket.on('joinRoom', (room) => {
+    socket.join(room);
+    console.log(`User ${socket.id} joined room: ${room}`);
+    io.to(room).emit('playerJoined', { room });
+  });
+
+  socket.on('move', (data) => {
+    io.to(data.room).emit('move', data);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
+
+server.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+const waitingPlayers = [];
+
+function findMatch(socket) {
+  if (waitingPlayers.length > 0) {
+    const opponent = waitingPlayers.pop();
+    const room = `${socket.id}#${opponent.id}`;
+    socket.join(room);
+    opponent.join(room);
+    io.to(room).emit('startGame', { room, players: [socket.id, opponent.id] });
+  } else {
+    waitingPlayers.push(socket);
+  }
+}

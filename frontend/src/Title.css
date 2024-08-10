@@ -1,5 +1,5 @@
 .App-header {
-    background-color: #001f3f; /* Navy blue color */
+    background-color: #173553; /* Navy blue color */
     height: 60px; /* Adjust the height as needed */
     display: flex;
     align-items: center;
@@ -19,7 +19,14 @@
     font-weight: bold;
     color: white;
     font-family: 'Luckiest Guy', cursive; /* Bubbly rigid font */
-  }
+    cursor: pointer; /* Change cursor to pointer when hovering */
+    transition: color 0.3s ease; /* Smooth transition for color change */
+}
+
+.logo-text:hover {
+    color: rgb(255, 166, 0); /* Light orange color on hover */
+    
+}
   
   button {
     position: relative;
@@ -56,25 +63,26 @@
     border-radius: 12px;
     background: linear-gradient(
       to left,
-      hsl(340deg 100% 16%) 0%,
-      hsl(340deg 100% 32%) 8%,
-      hsl(340deg 100% 32%) 92%,
-      hsl(340deg 100% 16%) 100%
+      hsl(24, 80%, 54%) 0%,
+      hsl(24, 80%, 54%) 8%,
+      hsl(24, 80%, 54%) 92%,
+      hsl(24, 80%, 54%) 100%
     );
   }
   
-  .front {
+  .about-btn .front {
     display: block;
     position: relative;
     padding: 12px 27px;
     border-radius: 12px;
     font-size: 1.1rem;
-    color: white;
-    background: hsl(345deg 100% 47%);
+    font-weight: bold;   /* Make the text bold */
+    color: white;        /* Set the text color to white */
+    background: rgb(29, 27, 27);   /* Change the background color to black */
     will-change: transform;
     transform: translateY(-4px);
     transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
-  }
+}
   
   button:hover {
     filter: brightness(110%);
@@ -132,8 +140,12 @@
 }
 
 .local-btn {
-  background: linear-gradient(to top, #d48012, #d48012, #fcb024); /* Light purple */
+  background: linear-gradient(to top, #f8a83f, #f8a83f, #f8a83f);
 }
+.online-btn {
+  background: linear-gradient(to top, #ce6e14, #ce6e14, #ce6e14); 
+}
+
 
   
   .btn span {
@@ -149,6 +161,7 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
+    font-weight: bold; 
   }
   
   .btn-text-two {

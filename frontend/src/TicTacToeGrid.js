@@ -58,20 +58,26 @@ const collegeLogoMap = {
   "Villanova": "villanova.svg",
 };
 
-const TicTacToeGrid = () => {
+const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHandleClick }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [filteredPlayers, setFilteredPlayers] = useState([]);
-  const [grid, setGrid] = useState(Array(9).fill(null));
+  const [grid, setGrid] = useState(externalGrid || Array(9).fill(null)); // Use external grid if provided
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [currentPlayer, setCurrentPlayer] = useState('red');
+  const [currentPlayer, setCurrentPlayer] = useState(soloMode ? 'user' : 'red');
   const [winner, setWinner] = useState(null);
-  const [gameMessage, setGameMessage] = useState("Red player's turn");
+  const [gameMessage, setGameMessage] = useState(soloMode ? "Fill the Grid" : "Red player's turn");
 
   useEffect(() => {
     fetchCategories();
   }, []);
+
+  useEffect(() => {
+    if (externalGrid) {
+      setGrid(externalGrid);
+    }
+  }, [externalGrid]);
 
   const fetchCategories = async () => {
     try {
@@ -102,9 +108,13 @@ const TicTacToeGrid = () => {
   }, [search]);
 
   const handleClick = (index) => {
-    if (grid[index] || winner) return;
-    setSelectedSquare(index);
-    setIsOpen(true);
+    if (externalHandleClick) {
+      externalHandleClick(index); // Use the external handleClick if in online mode
+    } else {
+      if (grid[index] || (winner && !soloMode)) return;
+      setSelectedSquare(index);
+      setIsOpen(true);
+    }
   };
 
   const generatePlayerImageURL = (playerName) => {
@@ -137,13 +147,17 @@ const TicTacToeGrid = () => {
         const newGrid = [...grid];
         newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
         setGrid(newGrid);
-        if (!checkWinnerOrTie(newGrid)) {
-          switchPlayer();
+        if (!soloMode) {
+          if (!checkWinnerOrTie(newGrid)) {
+            switchPlayer();
+          }
         }
         closePopup();
       } else {
         alert('Invalid player for the selected categories');
-        switchPlayer();
+        if (!soloMode) {
+          switchPlayer();
+        }
         closePopup();
       }
     } catch (error) {
@@ -196,11 +210,9 @@ const TicTacToeGrid = () => {
       const playersInCombo = [currentGrid[a], currentGrid[b], currentGrid[c]].filter(square => square);
       const playerSet = new Set(playersInCombo.map(square => square.player));
       if (playerSet.size > 1) {
-        // If there are different players in the combo, it's not possible for any one player to win with this combo
         continue;
       }
       if (playersInCombo.length < 3) {
-        // If there are empty spots in the combo, it could still potentially be a winning combo
         return false;
       }
     }
@@ -246,7 +258,7 @@ const TicTacToeGrid = () => {
             </div>
           </>
         )}
-        <div className={`board ${winner ? 'disabled' : ''}`}>
+        <div className={`board ${winner && !soloMode ? 'disabled' : ''}`}>
           {grid.map((value, index) => (
             <div
               key={index}

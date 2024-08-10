@@ -1,0 +1,48 @@
+.landing-container {
+    background-image: url('../public/backgroundsvg.svg'); /* Use the correct path relative to the public folder */
+    background-size: 700% 2000%; /* Ensures the image spans the full width and height */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+    height: 100vh; /* Ensures the background covers the full height of the page */
+    color: white;
+    text-align: center;
+    padding: 0; /* Remove padding if necessary */
+    margin: 0; /* Remove margin if necessary */
+}
+
+
+h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3rem;
+    margin-bottom: 30px;
+    color: #FFA500; /* Basketball orange */
+}
+
+.scoreboard {
+    font-size: 2rem;
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-top: 20px;
+}
+
+.basketball-icon {
+    margin-top: 30px;
+    width: 100px;
+    height: auto;
+    animation: bounce 2s infinite; /* Simple bounce animation */
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-30px);
+    }
+    60% {
+        transform: translateY(-15px);
+    }
+}
