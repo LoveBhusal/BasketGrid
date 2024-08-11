@@ -38,7 +38,7 @@ const Title = () => {
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="card">
               <div className="content">
-                <p className="heading">Rules to Play</p>
+                <p className="heading">How to Play</p>
                 <p className="para">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi laboriosam
                   at voluptas minus culpa deserunt delectus sapiente inventore pariatur.

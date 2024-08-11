@@ -427,3 +427,25 @@
   font-weight: bold;  /* Make the text bold */
   color: white;       /* Set the text color to white */
 }
+
+.coming-soon-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Full screen height */
+  text-align: center;
+  transform: translateY(-10%);
+}
+
+.coming-soon-title {
+  font-size: 3rem; /* Large title */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.coming-soon-text {
+  font-size: 2rem; /* Large text */
+  font-weight: bold;
+  color: #ff5733; /* Add a color if you like */
+}

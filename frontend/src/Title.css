@@ -140,7 +140,7 @@
 }
 
 .local-btn {
-  background: linear-gradient(to top, #f8a83f, #f8a83f, #f8a83f);
+  background: linear-gradient(to top, #f79e2a, #f8a83f, #f8a83f);
 }
 .online-btn {
   background: linear-gradient(to top, #ce6e14, #ce6e14, #ce6e14); 
@@ -161,7 +161,8 @@
     top: 50%;
     left: 0;
     transform: translateY(-50%);
-    font-weight: bold; 
+    font-weight: 800; /* Increase font weight */
+    font-size: 18px; /* Increase font size */
   }
   
   .btn-text-two {
@@ -170,6 +171,8 @@
     top: 150%;
     left: 0;
     transform: translateY(-50%);
+    font-weight: 500; /* Add more weight */
+    font-size: 14px; /* Slightly larger */
   }
   
   .btn:hover .btn-text-one {
