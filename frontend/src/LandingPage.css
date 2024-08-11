@@ -1,38 +1,51 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; 
+}
+
 .landing-container {
-    background-image: url('../public/backgroundsvg.svg'); /* Use the correct path relative to the public folder */
-    background-size: 700% 2000%; /* Ensures the image spans the full width and height */
-    background-position: center; /* Centers the background image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    height: 100vh; /* Ensures the background covers the full height of the page */
+    background-image: url('../public/backgroundsvg.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    width: 100vw; /* Set width to 100vw to avoid overflow issues */
+    height: 100vh; /* Ensure the container height matches the viewport height */
     color: white;
     text-align: center;
-    padding: 0; /* Remove padding if necessary */
-    margin: 0; /* Remove margin if necessary */
+    padding: 0;
+    margin: 0; /* Remove negative margin to avoid shifting the container */
+    box-sizing: border-box; /* Include padding in width/height calculation */
+    position: relative; /* Position relative for internal positioning */
+}
+
+.highlighted-text {
+    color: #ed7a3c; /* Basketball orange or any color you prefer */
+    font-weight: bold; /* Make the text bold to stand out */
 }
 
 
-h1 {
+.hero-text {
+    margin-top: 20vh;
+    display: inline-block; /* Adjust hero text to handle elements inline */
+    position: relative;
+}
+
+.hero-text h1 {
     font-family: 'Luckiest Guy', cursive;
     font-size: 3rem;
-    margin-bottom: 30px;
     color: #FFA500; /* Basketball orange */
-}
-
-.scoreboard {
-    font-size: 2rem;
-    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
-    color: white;
-    padding: 10px 20px;
-    border-radius: 10px;
     display: inline-block;
-    margin-top: 20px;
+    vertical-align: middle; /* Align the text and icon vertically */
 }
 
-.basketball-icon {
-    margin-top: 30px;
-    width: 100px;
-    height: auto;
-    animation: bounce 2s infinite; /* Simple bounce animation */
+.bouncing-basketball-icon {
+    display: inline-block;
+    width: 50px;
+    margin-left: 20px;
+    vertical-align: middle;
+    animation: bounce 1.5s infinite;
 }
 
 @keyframes bounce {
@@ -40,9 +53,40 @@ h1 {
         transform: translateY(0);
     }
     40% {
-        transform: translateY(-30px);
-    }
-    60% {
         transform: translateY(-15px);
     }
+    60% {
+        transform: translateY(-7px);
+    }
+}
+
+.hero-text p {
+    font-size: 1.2rem;
+    color: white;
+    margin-top: 10px;
+}
+
+.cta-text {
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #cccccc;
+}
+
+.cta-container {
+    margin-top: 30px;
+}
+
+.about-button {
+    padding: 15px 30px;
+    font-size: 1.5rem;
+    color: #ffffff;
+    background-color: #FFA500; /* Basketball orange */
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.about-button:hover {
+    background-color: #ff7f00; /* Darker orange on hover */
 }
