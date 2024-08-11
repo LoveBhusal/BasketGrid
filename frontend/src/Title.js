@@ -30,7 +30,7 @@ const Title = () => {
       <button className="about-btn" onClick={toggleModal}>
         <span className="shadow"></span>
         <span className="edge"></span>
-        <span className="front text"> About </span>
+        <span className="front text"> Rules </span>
       </button>
 
       {isModalOpen && (
@@ -38,7 +38,7 @@ const Title = () => {
           <div className="modal-content" onClick={e => e.stopPropagation()}>
             <div className="card">
               <div className="content">
-                <p className="heading">About BasketGrid</p>
+                <p className="heading">Rules to Play</p>
                 <p className="para">
                   Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi laboriosam
                   at voluptas minus culpa deserunt delectus sapiente inventore pariatur.
