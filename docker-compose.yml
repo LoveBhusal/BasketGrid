@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    image: bgridbackend
+    container_name: backend
+    ports:
+      - "5001:5001"
+    networks:
+      - app-network
+
+  frontend:
+    image: bgridfrontend
+    container_name: frontend
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

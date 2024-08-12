@@ -26,8 +26,8 @@ const PORT = process.env.PORT || 5001;
 
 const pool = new Pool({
   user: 'jamal',
-  host: 'localhost',
-  database: 'PlayerDatabase',
+  host: 'playerdatabase.chocck6i8uee.us-east-2.rds.amazonaws.com',
+  database: 'playerdatabase',
   password: 'twopercent',
   port: 5432,
 });
