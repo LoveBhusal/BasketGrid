@@ -1,6 +1,6 @@
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://jamal:twopercent@playerdatabase.chocck6i8uee.us-east-2.rds.amazonaws.com:5432/playerdatabase?schema=public"
+  url      = "postgresql://jamal:twopercent@localhost:5432/playerdatabase?schema=public"
 }
 
 

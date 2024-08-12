@@ -81,7 +81,7 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('http://localhost:5001/categories');
+      const response = await fetch('http://18.225.234.155:5001/categories');
       const data = await response.json();
       setCategories(data);
     } catch (error) {
@@ -93,7 +93,7 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
     const fetchPlayers = async () => {
       if (search) {
         try {
-          const response = await fetch(`http://localhost:5001/players?search=${search}`);
+          const response = await fetch(`http://18.225.234.155:5001/players?search=${search}`);
           const data = await response.json();
           setFilteredPlayers(data);
         } catch (error) {
@@ -133,7 +133,7 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
     const category2 = categories[rowIndex + 3];
 
     try {
-      const response = await fetch('http://localhost:5001/validate-player', {
+      const response = await fetch('http://18.225.234.155:5001/validate-player', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
