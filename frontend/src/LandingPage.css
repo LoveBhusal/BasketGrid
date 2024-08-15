@@ -10,20 +10,7 @@ html, body {
     overflow: hidden; 
 }
 
-.landing-container {
-    background-image: url('../public/backgroundsvg.svg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 100vw; 
-    height: 100vh; 
-    color: white;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    position: relative;
-}
+
 
 .highlighted-text {
     color: #F68B1F; /* Basketball orange color */

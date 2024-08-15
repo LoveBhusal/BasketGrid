@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRef } from 'react'; // Import useRef
 import Modal from 'react-modal';
 import './App.css';
 
@@ -68,6 +69,8 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
   const [currentPlayer, setCurrentPlayer] = useState(soloMode ? 'user' : 'red');
   const [winner, setWinner] = useState(null);
   const [gameMessage, setGameMessage] = useState(soloMode ? "Fill the Grid" : "Red player's turn");
+  const inputRef = useRef(null); // Create a reference for the input field
+
 
   useEffect(() => {
     fetchCategories();
@@ -106,6 +109,12 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
     fetchPlayers();
   }, [search]);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus(); // Focus the input field when the popup is opened
+    }
+  }, [isOpen]);
 
   const handleClick = (index) => {
     if (externalHandleClick) {
@@ -301,6 +310,8 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
+            ref={inputRef} // Attach the ref to the input element
+            autoFocus // Ensures the input is focused when the modal opens
           />
           <ul className="player-list">
             {filteredPlayers.map((player, index) => (
