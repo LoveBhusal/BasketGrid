@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import Modal from 'react-modal';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { useRef } from "react"; // Import useRef
+import Modal from "react-modal";
+import "./App.css";
 
-Modal.setAppElement('#root');
+Modal.setAppElement("#root");
 
 const teamLogoMap = {
   "Atlanta Hawks": "hawks.svg",
@@ -38,36 +39,43 @@ const teamLogoMap = {
 };
 
 const collegeLogoMap = {
-  "Alabama": "alabama.svg",
-  "Arizona": "arizona.svg",
-  "Connecticut": "connecticut.svg",
-  "Duke": "duke.svg",
-  "Gonzaga": "gonzaga.svg",
-  "Indiana": "indiana.svg",
-  "Kansas": "kansas.svg",
-  "Kentucky": "kentucky.svg",
-  "Louisville": "louisville.svg",
-  "Michigan": "michigan.svg",
+  Alabama: "alabama.svg",
+  Arizona: "arizona.svg",
+  Connecticut: "connecticut.svg",
+  Duke: "duke.svg",
+  Gonzaga: "gonzaga.svg",
+  Indiana: "indiana.svg",
+  Kansas: "kansas.svg",
+  Kentucky: "kentucky.svg",
+  Louisville: "louisville.svg",
+  Michigan: "michigan.svg",
   "Michigan State": "michiganstate.svg",
   "North Carolina": "northcarolina.svg",
   "Notre Dame": "notredame.svg",
   "Ohio State": "ohiostate.svg",
-  "Texas": "texas.svg",
-  "UCLA": "ucla.svg",
-  "USC": "usc.svg",
-  "Villanova": "villanova.svg",
+  Texas: "texas.svg",
+  UCLA: "ucla.svg",
+  USC: "usc.svg",
+  Villanova: "villanova.svg",
 };
 
-const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHandleClick }) => {
+const TicTacToeGrid = ({
+  soloMode,
+  grid: externalGrid,
+  handleClick: externalHandleClick,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [filteredPlayers, setFilteredPlayers] = useState([]);
   const [grid, setGrid] = useState(externalGrid || Array(9).fill(null)); // Use external grid if provided
   const [selectedSquare, setSelectedSquare] = useState(null);
   const [categories, setCategories] = useState([]);
-  const [currentPlayer, setCurrentPlayer] = useState(soloMode ? 'user' : 'red');
+  const [currentPlayer, setCurrentPlayer] = useState(soloMode ? "user" : "red");
   const [winner, setWinner] = useState(null);
-  const [gameMessage, setGameMessage] = useState(soloMode ? "Fill the Grid" : "Red player's turn");
+  const [gameMessage, setGameMessage] = useState(
+    soloMode ? "Fill the Grid" : "Red player's turn"
+  );
+  const inputRef = useRef(null); // Create a reference for the input field
 
   useEffect(() => {
     fetchCategories();
@@ -81,11 +89,13 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch('https://demo1.basketgrid.xyz/api/categories');
+      const response = await fetch(
+        "https://demo1.basketgrid.xyz/api/categories"
+      );
       const data = await response.json();
       setCategories(data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -93,11 +103,13 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
     const fetchPlayers = async () => {
       if (search) {
         try {
-          const response = await fetch(`https://demo1.basketgrid.xyz/api/players?search=${search}`);
+          const response = await fetch(
+            `https://demo1.basketgrid.xyz/api/players?search=${search}`
+          );
           const data = await response.json();
           setFilteredPlayers(data);
         } catch (error) {
-          console.error('Error fetching players:', error);
+          console.error("Error fetching players:", error);
         }
       } else {
         setFilteredPlayers([]);
@@ -106,6 +118,12 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
     fetchPlayers();
   }, [search]);
+
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus(); // Focus the input field when the popup is opened
+    }
+  }, [isOpen]);
 
   const handleClick = (index) => {
     if (externalHandleClick) {
@@ -118,12 +136,21 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
   };
 
   const generatePlayerImageURL = (playerName) => {
-    const normalizeName = (name) => name.toLowerCase().replace(/[^a-z0-9]/g, '');
-    const [firstName, lastName] = playerName.split(' ').map(normalizeName);
+    const normalizeName = (name) =>
+      name.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const [firstName, lastName] = playerName.split(" ").map(normalizeName);
     const truncatedLastName = lastName.substring(0, 5);
     const truncatedFirstName = firstName.substring(0, 2);
     return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
   };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && filteredPlayers.length > 0) {
+        // Select the first player in the filtered list when Enter is pressed
+        handlePlayerClick(filteredPlayers[0].player_name);
+    }
+};
+
 
   const handlePlayerClick = async (playerName) => {
     const rowIndex = Math.floor(selectedSquare / 3);
@@ -133,73 +160,105 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
     const category2 = categories[rowIndex + 3];
 
     try {
-      const response = await fetch('https://demo1.basketgrid.xyz/api/validate-player', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ playerName, category1, category2 }),
-      });
-      const result = await response.json();
+        const response = await fetch('https://demo1.basketgrid.xyz/api/validate-player', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ playerName, category1, category2 }),
+        });
+        const result = await response.json();
 
-      if (result.valid) {
-        const playerImageURL = generatePlayerImageURL(playerName);
-        const newGrid = [...grid];
-        newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
-        setGrid(newGrid);
-        if (!soloMode) {
-          if (!checkWinnerOrTie(newGrid)) {
-            switchPlayer();
-          }
+        if (result.valid) {
+            const playerImageURL = generatePlayerImageURL(playerName);
+            const newGrid = [...grid];
+            newGrid[selectedSquare] = { name: playerName, image: playerImageURL, player: currentPlayer };
+            setGrid(newGrid);
+
+            if (!soloMode) {
+                if (!checkWinnerOrTie(newGrid)) {
+                    switchPlayer();
+                }
+            }
+            closePopup();
+        } else {
+            // Update the selected player's name in the list to red
+            const updatedPlayers = filteredPlayers.map(player => 
+                player.player_name === playerName 
+                ? { ...player, invalid: true } 
+                : player
+            );
+            setFilteredPlayers(updatedPlayers);
+
+            if (soloMode) {
+                // Keep the input field open for another attempt
+                setSearch(search); // Clear the search input to encourage re-entry
+            } else {
+                // Briefly show the invalid indication then close and switch turn
+                setTimeout(() => {
+                    switchPlayer();
+                    closePopup();
+                }, 300);
+            }
         }
-        closePopup();
-      } else {
-        alert('Invalid player for the selected categories');
-        if (!soloMode) {
-          switchPlayer();
-        }
-        closePopup();
-      }
     } catch (error) {
-      console.error('Error validating player:', error);
+        console.error('Error validating player:', error);
     }
-  };
+};
 
   const switchPlayer = () => {
-    const nextPlayer = currentPlayer === 'red' ? 'blue' : 'red';
+    const nextPlayer = currentPlayer === "red" ? "blue" : "red";
     setCurrentPlayer(nextPlayer);
-    setGameMessage(`${nextPlayer.charAt(0).toUpperCase() + nextPlayer.slice(1)} player's turn`);
+    setGameMessage(
+      `${
+        nextPlayer.charAt(0).toUpperCase() + nextPlayer.slice(1)
+      } player's turn`
+    );
   };
 
   const checkWinnerOrTie = (currentGrid) => {
     const winningCombos = [
-      [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
-      [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
-      [0, 4, 8], [2, 4, 6] // Diagonals
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8], // Rows
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8], // Columns
+      [0, 4, 8],
+      [2, 4, 6], // Diagonals
     ];
 
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
-      if (currentGrid[a] && currentGrid[b] && currentGrid[c] &&
-          currentGrid[a].player === currentGrid[b].player &&
-          currentGrid[a].player === currentGrid[c].player) {
+      if (
+        currentGrid[a] &&
+        currentGrid[b] &&
+        currentGrid[c] &&
+        currentGrid[a].player === currentGrid[b].player &&
+        currentGrid[a].player === currentGrid[c].player
+      ) {
         setWinner(currentGrid[a].player);
-        setGameMessage(`${currentGrid[a].player.charAt(0).toUpperCase() + currentGrid[a].player.slice(1)} player wins!`);
+        setGameMessage(
+          `${
+            currentGrid[a].player.charAt(0).toUpperCase() +
+            currentGrid[a].player.slice(1)
+          } player wins!`
+        );
         return true;
       }
     }
 
-    if (currentGrid.every(square => square !== null)) {
-      setWinner('draw');
+    if (currentGrid.every((square) => square !== null)) {
+      setWinner("draw");
       setGameMessage("It's a draw!");
-      setCurrentPlayer('black');
+      setCurrentPlayer("black");
       return true;
     }
 
     if (checkNoWinningPossibility(currentGrid, winningCombos)) {
-      setWinner('draw');
+      setWinner("draw");
       setGameMessage("It's a draw!");
-      setCurrentPlayer('black');
+      setCurrentPlayer("black");
       return true;
     }
   };
@@ -207,8 +266,12 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
   const checkNoWinningPossibility = (currentGrid, winningCombos) => {
     for (let combo of winningCombos) {
       const [a, b, c] = combo;
-      const playersInCombo = [currentGrid[a], currentGrid[b], currentGrid[c]].filter(square => square);
-      const playerSet = new Set(playersInCombo.map(square => square.player));
+      const playersInCombo = [
+        currentGrid[a],
+        currentGrid[b],
+        currentGrid[c],
+      ].filter((square) => square);
+      const playerSet = new Set(playersInCombo.map((square) => square.player));
       if (playerSet.size > 1) {
         continue;
       }
@@ -221,14 +284,16 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
   const closePopup = () => {
     setIsOpen(false);
-    setSearch('');
+    setSearch("");
     setSelectedSquare(null);
   };
 
   const renderCategory = (category) => {
     let logoFileName = teamLogoMap[category] || collegeLogoMap[category];
     if (logoFileName) {
-      const logoPath = teamLogoMap[category] ? `/logos/${logoFileName}` : `/colleges/${logoFileName}`;
+      const logoPath = teamLogoMap[category]
+        ? `/logos/${logoFileName}`
+        : `/colleges/${logoFileName}`;
       return <img src={logoPath} alt={category} className="team-logo" />;
     }
     return category;
@@ -240,51 +305,77 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
 
   return (
     <div className="container">
-      <div className={`game-info ${currentPlayer}`}>
-        <h2>{gameMessage}</h2>
-      </div>
-      <div className="board-container">
-        {categories.length >= 6 && (
-          <>
-            <div className="categories-top">
-              <div className="category-item">{renderCategory(categories[0])}</div>
-              <div className="category-item">{renderCategory(categories[1])}</div>
-              <div className="category-item">{renderCategory(categories[2])}</div>
-            </div>
-            <div className="categories-side">
-              <div className="category-item">{renderCategory(categories[3])}</div>
-              <div className="category-item">{renderCategory(categories[4])}</div>
-              <div className="category-item">{renderCategory(categories[5])}</div>
-            </div>
-          </>
-        )}
-        <div className={`board ${winner && !soloMode ? 'disabled' : ''}`}>
-          {grid.map((value, index) => (
-            <div
-              key={index}
-              className={`square ${value ? value.player : ''} ${!value && !winner ? 'hoverable' : ''}`}
-              onClick={() => handleClick(index)}
-              style={{ borderColor: value?.player, borderWidth: '3px' }} // Thicker border
-            >
-              {value && (
-                <>
-                  <div>{value.name}</div>
-                  <img src={value.image} alt={value.name} className="player-headshot" />
-                </>
-              )}
-            </div>
-          ))}
+      <div className="game-wrapper">
+        <div className={`game-info ${currentPlayer}`}>
+          <h2>{gameMessage}</h2>
         </div>
+        <div className="board-container">
+          {categories.length >= 6 && (
+            <>
+              <div className="categories-top">
+                <div className="category-item">
+                  {renderCategory(categories[0])}
+                </div>
+                <div className="category-item">
+                  {renderCategory(categories[1])}
+                </div>
+                <div className="category-item">
+                  {renderCategory(categories[2])}
+                </div>
+              </div>
+              <div className="categories-side">
+                <div className="category-item">
+                  {renderCategory(categories[3])}
+                </div>
+                <div className="category-item">
+                  {renderCategory(categories[4])}
+                </div>
+                <div className="category-item">
+                  {renderCategory(categories[5])}
+                </div>
+              </div>
+            </>
+          )}
+          <div className={`board ${winner && !soloMode ? "disabled" : ""}`}>
+            {grid.map((value, index) => (
+              <div
+                key={index}
+                className={`square ${value ? value.player : ""} ${
+                  !value && !winner ? "hoverable" : ""
+                }`}
+                onClick={() => handleClick(index)}
+                style={{ borderColor: value?.player, borderWidth: "3px" }} // Thicker border
+              >
+                {value && (
+                  <>
+                    <div>{value.name}</div>
+                    <img
+                      src={value.image}
+                      alt={value.name}
+                      className="player-headshot"
+                    />
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+        <button type="button" className="button" onClick={resetGame}>
+          <span className="button__text">Restart</span>
+          <span className="button__icon">
+            <svg
+              className="svg"
+              height="48"
+              viewBox="0 0 48 48"
+              width="48"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M35.3 12.7c-2.89-2.9-6.88-4.7-11.3-4.7-8.84 0-15.98 7.16-15.98 16s7.14 16 15.98 16c7.45 0 13.69-5.1 15.46-12h-4.16c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55l-6.45 6.45h14v-14l-4.7 4.7z"></path>
+              <path d="M0 0h48v48h-48z" fill="none"></path>
+            </svg>
+          </span>
+        </button>
       </div>
-      <button type="button" className="button" onClick={resetGame}>
-        <span className="button__text">Restart</span>
-        <span className="button__icon">
-          <svg className="svg" height="48" viewBox="0 0 48 48" width="48" xmlns="http://www.w3.org/2000/svg">
-            <path d="M35.3 12.7c-2.89-2.9-6.88-4.7-11.3-4.7-8.84 0-15.98 7.16-15.98 16s7.14 16 15.98 16c7.45 0 13.69-5.1 15.46-12h-4.16c-1.65 4.66-6.07 8-11.3 8-6.63 0-12-5.37-12-12s5.37-12 12-12c3.31 0 6.28 1.38 8.45 3.55l-6.45 6.45h14v-14l-4.7 4.7z"></path>
-            <path d="M0 0h48v48h-48z" fill="none"></path>
-          </svg>
-        </span>
-      </button>
       <Modal
         isOpen={isOpen}
         onRequestClose={closePopup}
@@ -293,7 +384,9 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
         overlayClassName="overlay"
       >
         <div className="popup-content">
-          <button className="close" onClick={closePopup}>&times;</button>
+          <button className="close" onClick={closePopup}>
+            &times;
+          </button>
           <h2>Search for Player</h2>
           <input
             type="text"
@@ -301,13 +394,18 @@ const TicTacToeGrid = ({ soloMode, grid: externalGrid, handleClick: externalHand
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="search-input"
+            ref={inputRef} // Attach the ref to the input element
+            autoFocus // Ensures the input is focused when the modal opens
+            onKeyPress={handleKeyPress} // Attach the key press event handler
           />
           <ul className="player-list">
             {filteredPlayers.map((player, index) => (
               <li
                 key={index}
                 onClick={() => handlePlayerClick(player.player_name)}
-                className="player-item"
+                className={`player-item ${
+                  player.invalid ? "invalid-player" : ""
+                }`} // Add conditional class
               >
                 {player.player_name}
               </li>
