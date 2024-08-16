@@ -10,7 +10,9 @@ html, body {
     overflow: hidden; 
 }
 
-
+.landing-wrapper {
+    transform: scale(0.90); /* Adjust the scaling as needed */
+  }
 
 .highlighted-text {
     color: #F68B1F; /* Basketball orange color */

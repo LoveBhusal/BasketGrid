@@ -205,10 +205,11 @@
     border-radius: 8px;
     padding: 20px;
     position: relative;
-    width: 80%; /* Make the modal content wider */
+    width: 90%; /* Make the modal content wider */
     max-width: 800px; /* Set a maximum width to keep it responsive */
     max-height: 80vh; /* Limit the height to avoid vertical overflow */
     overflow-y: auto; /* Enable scrolling if content overflows vertically */
+    transform: translateY(-25px);
   }
   
 

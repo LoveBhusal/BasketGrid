@@ -40,6 +40,16 @@
   }
 }
 
+.game-wrapper {
+  transform: scale(0.75); /* Scale down the entire game area */
+ /* Anchor the scaling to the top-left corner */
+  margin: 0 auto; /* Center the content horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
 .board-container {
   display: grid;
   grid-template-areas:
@@ -450,4 +460,9 @@
   font-size: 2rem; /* Large text */
   font-weight: bold;
   color: #ff5733; /* Add a color if you like */
+}
+
+.invalid-player {
+  color: red;
+  font-weight: bold;
 }
