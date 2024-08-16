@@ -144,6 +144,14 @@ const TicTacToeGrid = ({
     return `https://www.basketball-reference.com/req/202407291/images/headshots/${truncatedLastName}${truncatedFirstName}01.jpg`;
   };
 
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter' && filteredPlayers.length > 0) {
+        // Select the first player in the filtered list when Enter is pressed
+        handlePlayerClick(filteredPlayers[0].player_name);
+    }
+};
+
+
   const handlePlayerClick = async (playerName) => {
     const rowIndex = Math.floor(selectedSquare / 3);
     const colIndex = selectedSquare % 3;
@@ -388,6 +396,7 @@ const TicTacToeGrid = ({
             className="search-input"
             ref={inputRef} // Attach the ref to the input element
             autoFocus // Ensures the input is focused when the modal opens
+            onKeyPress={handleKeyPress} // Attach the key press event handler
           />
           <ul className="player-list">
             {filteredPlayers.map((player, index) => (
