@@ -22,9 +22,9 @@ const categoryMapping = {
     "PTS > 20": { field: "pts", operator: "gt", value: 20 },
     "PTS > 25": { field: "pts", operator: "gt", value: 25 },
     "PTS < 5": { field: "pts", operator: "lt", value: 5 },
-    "REB > 10": { field: "reb", operator: "gt", value: 10 },
+    "REB >= 10": { field: "reb", operator: "gt", value: 10 },
     "AST > 7": { field: "ast", operator: "gt", value: 7 },
-    "3PT% > 40": { field: "fg3_pct", operator: "gt", value: 40 },
+    "3PT% > 40": { field: "fg3_pct", operator: "gte", value: .40 },
     "BLK >= 2": { field: "blk", operator: "gte", value: 2 },
     "STL >= 1.5": { field: "stl", operator: "gte", value: 1.5 }
   },
