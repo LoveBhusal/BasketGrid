@@ -19,7 +19,7 @@ function constructCondition(category) {
         case 'Teams':
             return { [mapping]: { has: category } };
         case 'Colleges':
-            return { [mapping]: { contains: category } };
+            return { [mapping]: { equals: category } };
         case 'Accolades':
             return constructAcoladesCondition(category, mapping[category]);
         case 'Draft':
