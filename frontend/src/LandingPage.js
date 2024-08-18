@@ -1,15 +1,18 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import './LandingPage.css';
 import basketballIcon from './basketball.png';
 import gridImg from './ttt.png';
 import vectorBg from './vectorbg.jpg'; // Import the new background image
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div 
       className="landing-container"
       style={{ 
-        backgroundImage: `url(${vectorBg})`, // Inline style for background image
+        backgroundImage: `url(${vectorBg})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -37,6 +40,20 @@ const LandingPage = () => {
         </div>
         <div className="ball-knowledge-text">
           <h2>DO YOU KNOW BALL?</h2>
+        </div>
+        <div className="game-mode-buttons">
+          <button className="btn solo-btn" onClick={() => navigate('/solo')}>
+            <span className="btn-text-one">Solo Grid</span>
+            <span className="btn-text-two">Click to Play</span>
+          </button>
+          <button className="btn local-btn" onClick={() => navigate('/local-h2h')}>
+            <span className="btn-text-one">Local H2H</span>
+            <span className="btn-text-two">Click to Play</span>
+          </button>
+          <button className="btn online-btn" onClick={() => navigate('/online-h2h')}>
+            <span className="btn-text-one">Online H2H</span>
+            <span className="btn-text-two">Click to Play</span>
+          </button>
         </div>
       </div>
     </div>

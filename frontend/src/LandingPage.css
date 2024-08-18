@@ -10,9 +10,11 @@ html, body {
     overflow: hidden; 
 }
 
+/* General styles */
 .landing-wrapper {
     transform: scale(0.90); /* Adjust the scaling as needed */
-  }
+    
+}
 
 .highlighted-text {
     color: #F68B1F; /* Basketball orange color */
@@ -34,10 +36,9 @@ html, body {
     margin-bottom: 10px;
 }
 
-/* Removed the conflicting p style */
 p.game-description {
     font-family: 'Graduate', sans-serif; 
-    font-size: var(--description-font-size);
+    font-size: 1.5rem;
     color: white;
     margin-top: 20px;
     line-height: 1.5;
@@ -48,7 +49,7 @@ p.game-description {
 
 .cta-text {
     margin-top: 70px;
-    font-size: var(--cta-font-size);
+    font-size: 1.3rem;
     color: #ffffff;
     font-family: 'Graduate', sans-serif;
 }
@@ -94,4 +95,28 @@ p.game-description {
     color: #fad60a; 
     text-transform: uppercase;
     margin-bottom: 20px;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 691px) {
+  .hero-text,
+  .ball-knowledge-text {
+    display: none; /* Hide the welcome text and challenge statement on mobile */
+  }
+
+  .game-mode-buttons {
+    transform: scale(1.90);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+    margin-top: 200px;
+  }
+}
+
+/* Desktop-specific styles */
+@media (min-width: 692px) {
+  .game-mode-buttons {
+    display: none; /* Hide game mode buttons on desktop */
+  }
 }

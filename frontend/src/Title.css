@@ -1,128 +1,39 @@
-
 .App-header {
-    background-color: #173553; /* Navy blue color */
-    height: 60px; /* Adjust the height as needed */
-    display: flex;
-    align-items: center;
-    justify-content: space-between; /* Add space between title and button */
-    padding: 0 20px;
-    color: white;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-  }
+  background-color: #173553; /* Navy blue color */
+  height: 60px; /* Adjust the height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Add space between title and button */
+  padding: 0 20px;
+  color: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
 
-  .logo-text {
-    font-size: 1.5rem; /* Bigger font size */
-    font-weight: bold;
-    color: white;
-    font-family: 'Luckiest Guy', cursive; /* Bubbly rigid font */
-    cursor: pointer; /* Change cursor to pointer when hovering */
-    transition: color 0.3s ease; /* Smooth transition for color change */
+.logo-text {
+  font-size: 1.5rem; /* Bigger font size */
+  font-weight: bold;
+  color: white;
+  font-family: 'Luckiest Guy', cursive; /* Bubbly rigid font */
+  cursor: pointer; /* Change cursor to pointer when hovering */
+  transition: color 0.3s ease; /* Smooth transition for color change */
 }
 
 .logo-text:hover {
-    color: rgb(255, 166, 0); /* Light orange color on hover */
-    
+  color: rgb(255, 166, 0); /* Light orange color on hover */
 }
-  
-  button {
-    position: relative;
-    border: none;
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    outline-offset: 4px;
-    transition: filter 250ms;
-    user-select: none;
-    touch-action: manipulation;
-    transform: scale(0.8); /* Scale button to 90% of its original size */
-  }
-  
-  .shadow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    background: hsl(0deg 0% 0% / 0.25);
-    will-change: transform;
-    transform: translateY(2px);
-    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
-  }
-  
-  .edge {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border-radius: 12px;
-    background: linear-gradient(
-      to left,
-      hsl(24, 80%, 54%) 0%,
-      hsl(24, 80%, 54%) 8%,
-      hsl(24, 80%, 54%) 92%,
-      hsl(24, 80%, 54%) 100%
-    );
-  }
-  
-  .about-btn .front {
-    display: block;
-    position: relative;
-    padding: 12px 27px;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    font-weight: bold;   /* Make the text bold */
-    color: white;        /* Set the text color to white */
-    background: rgb(29, 27, 27);   /* Change the background color to black */
-    will-change: transform;
-    transform: translateY(-4px);
-    transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
-}
-  
-  button:hover {
-    filter: brightness(110%);
-  }
-  
-  button:hover .front {
-    transform: translateY(-6px);
-    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
-  }
-  
-  button:active .front {
-    transform: translateY(-2px);
-    transition: transform 34ms;
-  }
-  
-  button:hover .shadow {
-    transform: translateY(4px);
-    transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
-  }
-  
-  button:active .shadow {
-    transform: translateY(1px);
-    transition: transform 34ms;
-  }
-  
-  button:focus:not(:focus-visible) {
-    outline: none;
-  }
-  
-  .button-group {
-    display: flex;
-    gap: 10px; /* Adjust the gap as needed */
-  }
-  
 
-.button-group{
+/* Button Group */
+.button-group {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
   margin-right: 40px;
 }
-  
+
 .btn {
   width: 140px;
   height: 50px;
@@ -143,18 +54,109 @@
 .local-btn {
   background: linear-gradient(to top, #f8a83f, #f8a83f, #f8a83f);
 }
+
 .online-btn {
   background: linear-gradient(to top, #ce6e14, #ce6e14, #ce6e14); 
 }
 
+.btn span {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: top 0.5s;
+}
 
-  
-  .btn span {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: top 0.5s;
+/* Rules Button Styling */
+button {
+  position: relative;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 4px;
+  transition: filter 250ms;
+  user-select: none;
+  touch-action: manipulation;
+  transform: scale(0.8); /* Scale button to 90% of its original size */
+}
+
+.shadow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: hsl(0deg 0% 0% / 0.25);
+  will-change: transform;
+  transform: translateY(2px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+.edge {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: linear-gradient(
+    to left,
+    hsl(24, 80%, 54%) 0%,
+    hsl(24, 80%, 54%) 8%,
+    hsl(24, 80%, 54%) 92%,
+    hsl(24, 80%, 54%) 100%
+  );
+}
+
+.about-btn .front {
+  display: block;
+  position: relative;
+  padding: 12px 27px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: white;
+  background: rgb(29, 27, 27);
+  will-change: transform;
+  transform: translateY(-4px);
+  transition: transform 600ms cubic-bezier(.3, .7, .4, 1);
+}
+
+button:hover {
+  filter: brightness(110%);
+}
+
+button:hover .front {
+  transform: translateY(-6px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+button:active .front {
+  transform: translateY(-2px);
+  transition: transform 34ms;
+}
+
+button:hover .shadow {
+  transform: translateY(4px);
+  transition: transform 250ms cubic-bezier(.3, .7, .4, 1.5);
+}
+
+button:active .shadow {
+  transform: translateY(1px);
+  transition: transform 34ms;
+}
+
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Hide button group on mobile devices */
+@media (max-width: 692px) {
+  .button-group {
+    display: none;
   }
+}
   
   .btn-text-one {
     position: absolute;

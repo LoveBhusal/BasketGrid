@@ -47,3 +47,21 @@
 .App .connectBtn:active {
   transform: scale(0.96) translate(0px, 3.2px);
 }
+
+/* Media Query for Mobile Devices */
+@media (max-width: 691px) {
+  .App .footer {
+    font-size: 0.2em; /* Smaller font size for mobile */
+    padding: 5px 0; /* Less padding on mobile */
+  }
+
+  .App .footer-content p {
+    font-size: 0.4rem; /* Smaller text for mobile */
+  }
+
+  .App .connectBtn {
+    width: 80px; /* Smaller button width on mobile */
+    height: 25px; /* Smaller button height on mobile */
+    font-size: 0.7rem; /* Smaller button text size on mobile */
+  }
+}

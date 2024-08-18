@@ -8,19 +8,6 @@ import LocalH2HMode from './LocalH2HMode';
 import './App.css';
 
 // Utility function to detect mobile devices
-const isMobileDevice = () => {
-  return /Mobi|Android/i.test(navigator.userAgent);
-};
-
-// Component to show when the application is accessed on a mobile device
-const IncompatibleDevice = () => {
-  return (
-    <div className="incompatible-device">
-      <h2>Sorry, this application is not compatible with mobile devices yet.</h2>
-      <p>Please try accessing it on a desktop or laptop for the best experience.</p>
-    </div>
-  );
-};
 
 // Existing "Coming Soon" component
 const ComingSoon = () => {
@@ -34,9 +21,7 @@ const ComingSoon = () => {
 
 function App() {
   // Check if the device is mobile
-  if (isMobileDevice()) {
-    return <IncompatibleDevice />;
-  }
+
 
   return (
     <Router>
